@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %} Bienvenue! {% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <h1> Bienvenue
+    </h1>
+
+    <img src="/Image/acceuil.jpg" alt="acceuil" class="image-md">
+    <h2>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste, vero unde totam odio hic, tempora esse
+        dignissimos iure quibusdam voluptate, error earum eveniet praesentium delectus eum nesciunt voluptas numquam
+        cumque.</h2>
+
+    {% if app.user %}
+    <div class="col-md-6">
+        <button type="submit" class="btn btn-success">Télécharger Application</button>
+    </div>
+
+    {% endif %}
+
+</div>
+{% endblock %}

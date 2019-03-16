@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Psy'UCL -
+        {% block title %}Bienvenue{% endblock %}
+    </title>
+    <link href="/CSS/bootstrap.min.css" rel="stylesheet">
+    <link href="/CSS/index.css" rel="stylesheet">
+    {% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="{{path('acceuil')}}">Psy'UCL</a>
+            <button aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-target="#navbarColor01" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    {% if app.user %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                                aria-expanded="false">
+                            {{ app.user.nom }} {{ app.user.prenom }}
+                        </a>
+                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+
+                            <a class="dropdown-item" href="{{path('consultation')}}">Consultation</a>
+
+
+                            <a class="dropdown-item" href="{{path('configuration')}}">Configuration</a>
+
+
+                            <a class="dropdown-item" href="{{path('patient')}}">Patients</a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a class="dropdown-item" href="{{path('deconnexion_user')}}">Deconnexion</a>
+
+                        </div>
+
+                    </li>
+                    <li class="nav-item active">
+                            <a class="nav-link" href="{{path('acceuil')}}">Acceuil</a>
+                        </li>
+                    {% else %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{path('acceuil')}}">Acceuil</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('inscription_user')}}">Inscription</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('connexion_user')}}">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('aide')}}">Aide</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+
+        </nav>
+    </header>
+    {% block body %}{% endblock %}
+    <footer class="mt-5 bg-secondary py-5 text-center">
+        <a class="btn btn-secondary" href="#">A propos</a>
+    </footer>
+    <script src="/JS/jquery.min.js"></script>
+    <script src="/JS/bootstrap.min.js"></script>
+    {% block javascripts %}{% endblock %}
+</body>
+
+</html>
