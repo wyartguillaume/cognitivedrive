@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container">
-    <h1>Inscription</h1>
+    <h1>Inscription du patient</h1>
     <div class="row">
         <div class="col-md-6">
 
@@ -20,7 +20,6 @@
             {{ form_row(form.profession,{'label': 'Profession','attr': {'placeholder': "Votre profession ..."}}) }}
             {{ form_row(form.etatCivil,{'label': 'Etat Civil','attr': {'placeholder': "Votre état civil"}}) }}
             {{ form_row(form.nbrEnfants,{'label': 'Nombre d\'enfant','attr': {'placeholder': "Votre nombre d'\'enfant"}}) }}
-            {{ form_row(form.psychologue, {'label': 'Psychologue','attr': {'placeholder': "Votre psychologue ..."}}) }}
             <button type="submit" class="btn btn-success">Inscription!</button>
             {{ form_end(form) }}
             <br>

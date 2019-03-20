@@ -11,6 +11,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Doctrine\ORM\Mapping\Id;
 
 class UserController extends AbstractController
 {
@@ -68,15 +69,22 @@ class UserController extends AbstractController
      * @Route("/inscriptionPatient", name="inscription_patient")
      */
     public function inscriptionPatient(Request $request, ObjectManager $manager){
+        $date = new \DateTime('@'.strtotime('now'));
         $patient = new Patient();
+        $psychologue = new Psychologue();
         $form = $this->createForm(InscriptionPatientType::class, $patient);
 
         $form->handleRequest($request);
-
+        $x = 0; 
         if($form->isSubmitted() && $form->isValid()){
+            $patient->setNbrVisite($x++)
+                    ->setTroubleDeSommeil(false)
+                    ->setDateDerniereVisite($date)
+                    ->setPsychologue($psychologue->getId(1));
+                    
             $manager->persist($patient);
             $manager->flush();
-            return $this->redirectToRoute('connexion_patient');
+            return $this->redirectToRoute('acceuil');
          }
     return $this->render('user/inscriptionPatient.html.twig', [
         'form' => $form->createView()
