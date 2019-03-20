@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Psychologue;
+use App\Entity\Patient;
 use App\Form\InscriptionType;
+use App\Form\InscriptionPatientType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,4 +54,33 @@ class UserController extends AbstractController
      */
 
     public function deconnexion() {}
+
+
+    /**
+     * @Route("/connexionPatient", name="connexion_patient")
+     */
+    public function connexionPatient()
+    {
+       return $this->render('user/connexxionPatient.html.twig');
+    }
+
+    /**
+     * @Route("/inscriptionPatient", name="inscription_patient")
+     */
+    public function inscriptionPatient(Request $request, ObjectManager $manager){
+        $patient = new Patient();
+        $form = $this->createForm(InscriptionPatientType::class, $patient);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $manager->persist($patient);
+            $manager->flush();
+            return $this->redirectToRoute('connexion_patient');
+         }
+    return $this->render('user/inscriptionPatient.html.twig', [
+        'form' => $form->createView()
+        ]);
+    }
+
 }
