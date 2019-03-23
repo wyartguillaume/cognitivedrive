@@ -10,6 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\ORM\Mapping\Id;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 046e1b0a3cdc7066b1242e50767451aa0eb09e28
 class UserController extends AbstractController
 {
     /**
@@ -42,6 +46,11 @@ class UserController extends AbstractController
      * @Route("/deconnexion", name="deconnexion_user")
      */
     public function deconnexion() {}
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 046e1b0a3cdc7066b1242e50767451aa0eb09e28
     /**
      * @Route("/connexionPatient", name="connexion_patient")
      */
@@ -49,6 +58,10 @@ class UserController extends AbstractController
     {
        return $this->render('user/connexxionPatient.html.twig');
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 046e1b0a3cdc7066b1242e50767451aa0eb09e28
     /**
      * @Route("/inscriptionPatient", name="inscription_patient")
      */
@@ -57,6 +70,10 @@ class UserController extends AbstractController
         $patient = new Patient();
         $psychologue = new Psychologue();
         $form = $this->createForm(InscriptionPatientType::class, $patient);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 046e1b0a3cdc7066b1242e50767451aa0eb09e28
         $form->handleRequest($request);
         $x = 0; 
         if($form->isSubmitted() && $form->isValid()){
@@ -73,4 +90,9 @@ class UserController extends AbstractController
         'form' => $form->createView()
         ]);
     }
+<<<<<<< HEAD
 }
+=======
+
+}
+>>>>>>> 046e1b0a3cdc7066b1242e50767451aa0eb09e28

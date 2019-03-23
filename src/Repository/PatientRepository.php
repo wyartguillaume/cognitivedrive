@@ -47,7 +47,10 @@ class PatientRepository extends ServiceEntityRepository
         ;
     }
     */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 046e1b0a3cdc7066b1242e50767451aa0eb09e28
     public function findPsychologue($id){
         $q = $this->createQueryBuilder('q');
         return $q->select('f.nom', 'f.prenom')
@@ -56,4 +59,9 @@ class PatientRepository extends ServiceEntityRepository
                      ->getQuery()
                      ->getResult();
     }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 046e1b0a3cdc7066b1242e50767451aa0eb09e28
 }
