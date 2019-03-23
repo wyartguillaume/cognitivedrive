@@ -7,18 +7,14 @@
     <h1> Connexion du patient</h1>
     <div class="row">
         <div class="col-md-6">
-
-            <form action="{{path('connexion_patient')}}" method="post">
-                <div class="form-group">
-                    <input placeholder="pseudo..." required name="pseudo" type="text" class="form-control">
-                    <br>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success">Connexion</button>
-                </div>
-            </form>
-            <p>Pas encore inscris?<a href="{{path('inscription_patient')}}"> Inscrivez-vous</a></p>
-        </div>
+      {{ form_start(form) }}
+            {{ form_row(form.pseudo, {'label': 'Pseudo','attr': {'placeholder': "Votre pseudo ..."}}) }}
+            <p style="color: red;">{{error}}</p>
+            <button type="submit" class="btn btn-success">Connexion patient!</button>
+      {{ form_end(form) }}
+      <p>Pas encore inscris?<a href="{{path('inscription_patient')}}"> Inscrivez-vous!</a></p>
+      </div>
     </div>
+
 </div>
 {% endblock %}

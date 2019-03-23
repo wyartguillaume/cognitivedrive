@@ -1,15 +1,17 @@
 <?php 
 namespace App\Controller;
-use App\Entity\Psychologue;
 use App\Entity\Patient;
+use App\Entity\Psychologue;
+use Doctrine\ORM\Mapping\Id;
 use App\Form\InscriptionType;
+use App\Form\ConnexionPatientType;
 use App\Form\InscriptionPatientType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Doctrine\ORM\Mapping\Id;
+
 class UserController extends AbstractController
 {
     /**
@@ -48,7 +50,26 @@ class UserController extends AbstractController
      */
     public function connexionPatient(Request $request, ObjectManager $manager)
     {
-       return $this->render('user/connexionPatient.html.twig');
+        $patient = new Patient();
+        $form = $this->createForm(ConnexionPatientType::class, $patient);
+        $form->handleRequest($request);
+        $pseudo = $manager->createQuery('SELECT p.pseudo FROM App\Entity\Patient p')->getResult();
+
+        foreach($pseudo as $key => $value){
+            foreach($value as $p => $nom){
+                if($nom == $patient->getPseudo()){
+                    return $this->redirectToRoute('acceuil');
+                }
+                else{$error="Pseudo inexistant!!!";}
+                ;
+            }
+        }
+    
+       return $this->render('user/connexionPatient.html.twig', [
+        'form' => $form->createView(),
+        'error' => $error
+        
+       ]);
     }
 
      /**
