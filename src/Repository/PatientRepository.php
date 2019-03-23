@@ -1,11 +1,8 @@
 <?php
-
 namespace App\Repository;
-
 use App\Entity\Patient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-
 /**
  * @method Patient|null find($id, $lockMode = null, $lockVersion = null)
  * @method Patient|null findOneBy(array $criteria, array $orderBy = null)
@@ -18,7 +15,6 @@ class PatientRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Patient::class);
     }
-
     // /**
     //  * @return Patient[] Returns an array of Patient objects
     //  */
@@ -35,7 +31,6 @@ class PatientRepository extends ServiceEntityRepository
         ;
     }
     */
-
     /*
     public function findOneBySomeField($value): ?Patient
     {
@@ -47,10 +42,6 @@ class PatientRepository extends ServiceEntityRepository
         ;
     }
     */
-<<<<<<< HEAD
-
-=======
->>>>>>> 046e1b0a3cdc7066b1242e50767451aa0eb09e28
     public function findPsychologue($id){
         $q = $this->createQueryBuilder('q');
         return $q->select('f.nom', 'f.prenom')
@@ -59,9 +50,4 @@ class PatientRepository extends ServiceEntityRepository
                      ->getQuery()
                      ->getResult();
     }
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 046e1b0a3cdc7066b1242e50767451aa0eb09e28
 }
