@@ -42,12 +42,5 @@ class PatientRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findPsychologue($id){
-        $q = $this->createQueryBuilder('q');
-        return $q->select('f.nom', 'f.prenom')
-                     ->join('q.psychologue', 'f')
-                     ->where('f.id = '.$id)
-                     ->getQuery()
-                     ->getResult();
-    }
+
 }

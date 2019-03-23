@@ -46,9 +46,9 @@ class UserController extends AbstractController
         /**
      * @Route("/connexionPatient", name="connexion_patient")
      */
-    public function connexionPatient()
+    public function connexionPatient(Request $request, ObjectManager $manager)
     {
-       return $this->render('user/connexxionPatient.html.twig');
+       return $this->render('user/connexionPatient.html.twig');
     }
 
      /**
@@ -57,7 +57,9 @@ class UserController extends AbstractController
     public function inscriptionPatient(Request $request, ObjectManager $manager){
         $date = new \DateTime('@'.strtotime('now'));
         $patient = new Patient();
-        $psychologue = new Psychologue();
+       // $psychologue = new Psychologue();
+        /*$psychologue = $manager->createQuery('SELECT p FROM App\Entity\Psychologue p')->getResult();
+        dump($psychologue);*/
         $form = $this->createForm(InscriptionPatientType::class, $patient);
 
         $form->handleRequest($request);
@@ -65,12 +67,11 @@ class UserController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $patient->setNbrVisite($x++)
                     ->setTroubleDeSommeil(false)
-                    ->setDateDerniereVisite($date)
-                    ->setPsychologue($psychologue->getId(1));
-                    
+                    ->setDateDerniereVisite($date);
+
             $manager->persist($patient);
             $manager->flush();
-            return $this->redirectToRoute('acceuil');
+            return $this->redirectToRoute('connexion_patient');
          }
     return $this->render('user/inscriptionPatient.html.twig', [
         'form' => $form->createView()

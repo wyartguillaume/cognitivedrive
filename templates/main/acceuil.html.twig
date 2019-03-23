@@ -4,20 +4,28 @@
 
 {% block body %}
 <div class="container">
-    <h1> Bienvenue
+    <h1> Bienvenue sur notre site CognitiveDrive
     </h1>
+    <br>
 
-    <img src="/Image/acceuil.jpg" alt="acceuil" class="image-md">
-    <h2>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste, vero unde totam odio hic, tempora esse
-        dignissimos iure quibusdam voluptate, error earum eveniet praesentium delectus eum nesciunt voluptas numquam
-        cumque.</h2>
+    <div class="card text-white bg-primary mb-3" style="max-width: 50rem;">
+  <div class="card-header"><h2>Psychologue</h2></div>
+  <div class="card-body">
+    <h4 class="card-title"><a href="{{path('inscription_user')}}">Je suis un psychologue</a></h4>
+    <p class="card-text">Si vous cliquez ici, vous affirmez que vous êtes  psychologue et que vous voulez vous inscrire à notre site</p>
+  </div>
+</div>
+<br>
+<div class="card text-white bg-secondary mb-3" style="max-width: 50rem;">
+  <div class="card-header"><h2>Patient</h2></div>
+  <div class="card-body">
+    <h4 class="card-title"><a href="{{path('inscription_patient')}}">Je suis un patient</a></h4>
+    <p class="card-text">Si vous cliquez ici, vous voulez vous inscrire à notre site en tant que patient</p>
+  </div>
+</div>
 
-    {% if app.user %}
-    <div class="col-md-6">
-        <button type="submit" class="btn btn-success">Télécharger Application</button>
-    </div>
 
-    {% endif %}
+
 
 </div>
 {% endblock %}

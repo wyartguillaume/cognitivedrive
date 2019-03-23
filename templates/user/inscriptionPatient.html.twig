@@ -11,7 +11,7 @@
             {{ form_start(form) }}
             {{ form_row(form.pseudo, {'label': 'Pseudo','attr': {'placeholder': "Votre pseudo ..."}}) }}
             {{ form_row(form.dateDeNaissance,{'label': 'Date de naissance','attr': {'placeholder': "AAAA/MM/JJ"}}) }}
-            {{ form_row(form.sexe,{'label': 'Sexe','attr': {'placeholder': "Votre sexe ..."}}) }}
+            {{ form_row(form.sexe,{'label': 'Sexe','attr': {'placeholder': "Votre sexe ..."}}) }}<p>Si vous étes une femme, cochez la case</p>
             {{ form_row(form.lateralite,{'label': 'Lateralite','attr': {'placeholder': "Votre lateralité ..."}}) }}
             {{ form_row(form.groupe,{'label': 'Groupe','attr': {'placeholder': "Votre groupe"}}) }}
             {{ form_row(form.nom,{'label': 'Nom','attr': {'placeholder': "Votre nom"}}) }}
@@ -20,6 +20,7 @@
             {{ form_row(form.profession,{'label': 'Profession','attr': {'placeholder': "Votre profession ..."}}) }}
             {{ form_row(form.etatCivil,{'label': 'Etat Civil','attr': {'placeholder': "Votre état civil"}}) }}
             {{ form_row(form.nbrEnfants,{'label': 'Nombre d\'enfant','attr': {'placeholder': "Votre nombre d'\'enfant"}}) }}
+            {{ form_row(form.psychologue)}}
             <button type="submit" class="btn btn-success">Inscription!</button>
             {{ form_end(form) }}
             <br>

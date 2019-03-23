@@ -3,31 +3,41 @@
 namespace App\Form;
 
 use App\Entity\Patient;
+use App\Entity\Psychologue;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class InscriptionPatientType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
         ->add('pseudo')
         ->add('dateDeNaissance')
-        ->add('sexe', RadioType::class)
+        ->add('sexe', CheckboxType::class, [
+            'label' => 'Femme',
+            'required'=>false,
+        ])
         ->add('lateralite', ChoiceType::class, [
             'choices' => [
-                'Droitier'=>false,
-                'Gaucher'=>false,
-                'Ambidextre'=>false,
-                'Je ne sais pas'=>true
+                'Droitier'=>'Droitier',
+                'Gaucher'=>'Gaucher',
+                'Ambidextre'=>'Ambidextre',
+                'Je ne sais pas'=>'Je ne sais pas'
             ]
         ])
         ->add('groupe', ChoiceType::class,  [
             'choices' => [
-                'Alcoolique'=>false,
-                'Dépressif'=>false,
-                'Je ne sais pas'=>true
+                'Alcoolique'=>'Alcoolique',
+                'Dépressif'=>'Dépressif',
+                'Je ne sais pas'=>'Je ne sais pas'
             ]
         ])
         ->add('nom')
@@ -36,16 +46,18 @@ class InscriptionPatientType extends AbstractType
         ->add('profession')
         ->add('etatCivil', ChoiceType::class,  [
             'choices' => [
-                'Célibataire'=>true,
-                'Marié'=>false,
-                'Veuf'=>false,
+                'Célibataire'=>'Célibataire',
+                'Marié'=>'Marié',
+                'Veuf'=>'Veuf',
             ]
         ])
         ->add('nbrEnfants')
-        ->add('psychologue', ChoiceType::class, [
-            'choices'=> [
-                
-            ]
+        ->add('psychologue', EntityType::class, [
+            'class' => Psychologue::class,
+            'placeholder' => 'Trouver votre psychologue',
+            'choice_label' => function(Psychologue $psychologue){
+                return ($psychologue->getNom()." ".$psychologue->getPrenom());
+            },
         ])
     ;
 }
