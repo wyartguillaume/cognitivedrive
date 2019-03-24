@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Patient;
 use App\Repository\PatientRepository;
+use App\Repository\PsychologueRepository;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
 {
@@ -36,12 +39,15 @@ class MainController extends AbstractController
     /**
      * @Route("/patient", name="patient")
      */
-    public function patient(PatientRepository $repo)
+    public function patient(PatientRepository $repo, ObjectManager $manager, PsychologueRepository $repoPsy)
     {
-        $patient = $repo->findAll();
+       // $idPsycho = $repoPsy->find
+       // $psycho = $manager->createQuery('SELECT psy.id FROM App\Entity\Patient p JOIN APP\Entity\Psychologue psy WHERE psy.id='.$idPsycho)->getResult();
+        $patients = $repo ->findAll();
+      // dump($psycho);
+        
         return $this->render('main/patient.html.twig', [
-          'patients' => $patient,
-          'maFonction' => creeTableau($patient, 'Patient', true)
+            'patients' => $patients
         ]);
     }
 

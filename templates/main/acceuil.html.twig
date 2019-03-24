@@ -4,8 +4,17 @@
 
 {% block body %}
 <div class="container">
-    <h1> Bienvenue sur notre site CognitiveDrive
+{% if app.user %}
+
+    <h1 style="text-align:center;"> Un plaisir de vous revoir </h1>
+    <h2 style="text-align:center; color:green;">{{ app.user.nom }} {{ app.user.prenom }}!!</h2>
+    <img src="Image/acceuil.jpg">
+
+{% else %}
+  
+<h1> Bienvenue sur notre site CognitiveDrive
     </h1>
+
     <br>
 
     <div class="card text-white bg-primary mb-3" style="max-width: 50rem;">
@@ -23,6 +32,7 @@
     <p class="card-text">Si vous cliquez ici, vous voulez vous inscrire à notre site en tant que patient</p>
   </div>
 </div>
+{% endif %}
 
 
 

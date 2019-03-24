@@ -43,4 +43,15 @@ class PatientRepository extends ServiceEntityRepository
     }
     */
 
+  /*  public function changeDateVisite($nom){
+        $date = new \DateTime('@'.strtotime('now'));
+        $query = $this->createQueryBuilder('p');
+        return $query->update('Patient', 'p')          
+                ->set('p.prenom', 'david')
+                ->where('p.nom='.$nom)
+                ->getQuery()
+                ->getResult();
+    }*/
+    
+
 }

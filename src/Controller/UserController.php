@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping\Id;
 use App\Form\InscriptionType;
 use App\Form\ConnexionPatientType;
 use App\Form\InscriptionPatientType;
+use App\Repository\PatientRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,8 +49,9 @@ class UserController extends AbstractController
         /**
      * @Route("/connexionPatient", name="connexion_patient")
      */
-    public function connexionPatient(Request $request, ObjectManager $manager)
+    public function connexionPatient(Request $request, ObjectManager $manager, PatientRepository $repo)
     {
+        $date = new \DateTime('@'.strtotime('now'));
         $patient = new Patient();
         $form = $this->createForm(ConnexionPatientType::class, $patient);
         $form->handleRequest($request);
@@ -57,7 +59,9 @@ class UserController extends AbstractController
 
         foreach($pseudo as $key => $value){
             foreach($value as $p => $nom){
-                if($nom == $patient->getPseudo()){
+                if($nom == $patient->getPseudo() && $form->isSubmitted() && $form->isValid()){
+                    $patient->setDateDerniereVisite($date);
+                    $manager->flush();
                     return $this->redirectToRoute('acceuil');
                 }
                 else{$error="Pseudo inexistant!!!";}
@@ -92,7 +96,7 @@ class UserController extends AbstractController
 
             $manager->persist($patient);
             $manager->flush();
-            return $this->redirectToRoute('connexion_patient');
+            $this->addFlash('success', 'Votre compte à bien été enregistré.');
          }
     return $this->render('user/inscriptionPatient.html.twig', [
         'form' => $form->createView()

@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class InscriptionPatientType extends AbstractType
@@ -20,7 +21,7 @@ class InscriptionPatientType extends AbstractType
     {
         $builder
         ->add('pseudo')
-        ->add('dateDeNaissance')
+        ->add('dateDeNaissance', BirthdayType::class)
         ->add('sexe', CheckboxType::class, [
             'label' => 'Femme',
             'required'=>false,
