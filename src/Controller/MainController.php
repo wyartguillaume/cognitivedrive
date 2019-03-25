@@ -41,13 +41,14 @@ class MainController extends AbstractController
      */
     public function patient(PatientRepository $repo, ObjectManager $manager, PsychologueRepository $repoPsy)
     {
-       // $idPsycho = $repoPsy->find
-       // $psycho = $manager->createQuery('SELECT psy.id FROM App\Entity\Patient p JOIN APP\Entity\Psychologue psy WHERE psy.id='.$idPsycho)->getResult();
+       $idPsycho = $repo->findPsychoId(1);
+       dump($idPsycho);
+       // $psycho = $manager->createQuery('SELECT psy FROM App\Entity\Patient p JOIN APP\Entity\Psychologue psy WHERE psy.id='.$idPsycho)->getResult();
         $patients = $repo ->findAll();
       // dump($psycho);
         
         return $this->render('main/patient.html.twig', [
-            'patients' => $patients
+            'patients' => $idPsycho
         ]);
     }
 

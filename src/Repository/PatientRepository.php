@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Patient|null findOneBy(array $criteria, array $orderBy = null)
  * @method Patient[]    findAll()
  * @method Patient[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Patient|null findPsychoId($id)
  */
 class PatientRepository extends ServiceEntityRepository
 {
@@ -43,15 +44,15 @@ class PatientRepository extends ServiceEntityRepository
     }
     */
 
-  /*  public function changeDateVisite($nom){
-        $date = new \DateTime('@'.strtotime('now'));
+    public function findPsychoId($id){
         $query = $this->createQueryBuilder('p');
-        return $query->update('Patient', 'p')          
-                ->set('p.prenom', 'david')
-                ->where('p.nom='.$nom)
+        return $query->select('p')     
+                ->leftJoin('App:Psychologue', 'r', 'WITH', 'p.psychologue = r.id')
+                //->addSelect('r')     
+                ->where('r.id='.$id)
                 ->getQuery()
                 ->getResult();
-    }*/
+    }
     
 
 }
