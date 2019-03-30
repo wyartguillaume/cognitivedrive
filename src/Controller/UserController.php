@@ -24,10 +24,29 @@ class UserController extends AbstractController
         $form = $this->createForm(InscriptionType::class, $psychologue);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-           $hash = $encoder->encodePassword($psychologue, $psychologue->getMotDePasse());
+            $secret = "6LecV5oUAAAAAKhWIpWUT8lnTfOwHu9MwXJL11Fl";
+	// Paramètre renvoyé par le recaptcha
+	$response = $_POST['g-recaptcha-response'];
+	// On récupère l'IP de l'utilisateur
+	$remoteip = $_SERVER['REMOTE_ADDR'];
+	
+	$api_url = "https://www.google.com/recaptcha/api/siteverify?secret=" 
+	    . $secret
+	    . "&response=" . $response
+	    . "&remoteip=" . $remoteip ;
+	
+	$decode = json_decode(file_get_contents($api_url), true);
+	
+	if ($decode['success'] == true) {
+        $hash = $encoder->encodePassword($psychologue, $psychologue->getMotDePasse());
             $psychologue->setMotDePasse($hash);
             $manager->persist($psychologue);
             $manager->flush();
+	}
+	
+	else {
+        // C'est un robot ou le code de vérification est incorrecte
+	}
             return $this->redirectToRoute('connexion_user');
         }
         return $this->render('user/inscription.html.twig', [
