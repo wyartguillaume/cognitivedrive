@@ -24,7 +24,7 @@ class UserController extends AbstractController
         $form = $this->createForm(InscriptionType::class, $psychologue);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $secret = "6LecV5oUAAAAAKhWIpWUT8lnTfOwHu9MwXJL11Fl";
+            
 	// Paramètre renvoyé par le recaptcha
 	$response = $_POST['g-recaptcha-response'];
 	// On récupère l'IP de l'utilisateur
