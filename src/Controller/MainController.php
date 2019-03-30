@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Patient;
+use App\Entity\Psychologue;
 use App\Repository\PatientRepository;
 use App\Repository\PsychologueRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -41,14 +42,9 @@ class MainController extends AbstractController
      */
     public function patient(PatientRepository $repo, ObjectManager $manager, PsychologueRepository $repoPsy)
     {
-       $idPsycho = $repo->findPsychoId(1);
-       dump($idPsycho);
-       // $psycho = $manager->createQuery('SELECT psy FROM App\Entity\Patient p JOIN APP\Entity\Psychologue psy WHERE psy.id='.$idPsycho)->getResult();
-        $patients = $repo ->findAll();
-      // dump($psycho);
-        
+       $patientList = $repo->findPsychoId($this->getUser()->getId());
         return $this->render('main/patient.html.twig', [
-            'patients' => $idPsycho
+            'patients' => $patientList
         ]);
     }
 

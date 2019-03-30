@@ -44,6 +44,8 @@ class PatientRepository extends ServiceEntityRepository
     }
     */
 
+
+    
     public function findPsychoId($id){
         $query = $this->createQueryBuilder('p');
         return $query->select('p')     

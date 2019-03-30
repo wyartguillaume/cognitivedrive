@@ -21,6 +21,9 @@
             {{ form_row(form.etatCivil,{'label': 'Etat Civil','attr': {'placeholder': "Votre état civil"}}) }}
             {{ form_row(form.nbrEnfants,{'label': 'Nombre d\'enfant','attr': {'placeholder': "Votre nombre d'\'enfant"}}) }}
             {{ form_row(form.psychologue)}}
+            <div class="g-recaptcha" 
+          data-sitekey="6Le0DpsUAAAAABmlgtHfMVuGzrcvuPYBz2rJ7sag">
+          </div>
             <button type="submit" class="btn btn-success">Inscription!</button>
             {{ form_end(form) }}
             <br>

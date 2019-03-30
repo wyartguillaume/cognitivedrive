@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
@@ -24,7 +25,7 @@ class UserController extends AbstractController
         $form = $this->createForm(InscriptionType::class, $psychologue);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $secret = "6LecV5oUAAAAAKhWIpWUT8lnTfOwHu9MwXJL11Fl";
+            $secret = "6Le0DpsUAAAAAI-SEJXK09HZ57KpIMrIqO3AP8n9";
 	// Paramètre renvoyé par le recaptcha
 	$response = $_POST['g-recaptcha-response'];
 	// On récupère l'IP de l'utilisateur
@@ -56,9 +57,15 @@ class UserController extends AbstractController
     /**
      * @Route("/connexion", name="connexion_user")
      */
-    public function connexion()
+    public function connexion(AuthenticationUtils $utils)
     {
-        return $this->render('user/connexion.html.twig');
+        $error = $utils->getLastAuthenticationError();
+        $username = $utils->getLastUsername();
+
+        return $this->render('user/connexion.html.twig', [
+            'hasError' => $error !== null,
+            'username' => $username
+        ]);
     }
     /**
      * @Route("/deconnexion", name="deconnexion_user")
@@ -109,17 +116,35 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         $x = 0; 
         if($form->isSubmitted() && $form->isValid()){
+            $secret = "6Le0DpsUAAAAAI-SEJXK09HZ57KpIMrIqO3AP8n9";
+            $response = $_POST['g-recaptcha-response'];
+	// On récupère l'IP de l'utilisateur
+	$remoteip = $_SERVER['REMOTE_ADDR'];
+	
+	$api_url = "https://www.google.com/recaptcha/api/siteverify?secret=" 
+	    . $secret
+	    . "&response=" . $response
+	    . "&remoteip=" . $remoteip ;
+	
+	$decode = json_decode(file_get_contents($api_url), true);
+	
+	if ($decode['success'] == true) {
             $patient->setNbrVisite($x++)
                     ->setTroubleDeSommeil(false)
                     ->setDateDerniereVisite($date);
 
             $manager->persist($patient);
             $manager->flush();
-            $this->addFlash('success', 'Votre compte à bien été enregistré.');
          }
+         else {
+            // C'est un robot ou le code de vérification est incorrecte
+         }
+        }
     return $this->render('user/inscriptionPatient.html.twig', [
         'form' => $form->createView()
         ]);
     }
+
+
 
 }
