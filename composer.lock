@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6a7922e594974a948258527a74c42e9",
+    "content-hash": "14f497145be5d336a0e793dfce34e347",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -4371,16 +4371,16 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v4.2.3",
+            "version": "v4.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "95e63a14718cc0825ca2f9c2d85a7129d8f12f13"
+                "reference": "d7c959be961d05d78931c0f739abec9903e006b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/95e63a14718cc0825ca2f9c2d85a7129d8f12f13",
-                "reference": "95e63a14718cc0825ca2f9c2d85a7129d8f12f13",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/d7c959be961d05d78931c0f739abec9903e006b1",
+                "reference": "d7c959be961d05d78931c0f739abec9903e006b1",
                 "shasum": ""
             },
             "require": {
@@ -4447,7 +4447,7 @@
             ],
             "description": "Symfony Serializer Component",
             "homepage": "https://symfony.com",
-            "time": "2019-01-29T09:49:29+00:00"
+            "time": "2019-04-01T16:12:17+00:00"
         },
         {
             "name": "symfony/serializer-pack",
@@ -4531,16 +4531,16 @@
         },
         {
             "name": "symfony/swiftmailer-bundle",
-            "version": "v3.2.5",
+            "version": "v3.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/swiftmailer-bundle.git",
-                "reference": "ac4f38c2ec7957f2dec8b6c2f24a060b10a254f2"
+                "reference": "7a83160b50a2479d37eb74ba71577380b9afe4f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/swiftmailer-bundle/zipball/ac4f38c2ec7957f2dec8b6c2f24a060b10a254f2",
-                "reference": "ac4f38c2ec7957f2dec8b6c2f24a060b10a254f2",
+                "url": "https://api.github.com/repos/symfony/swiftmailer-bundle/zipball/7a83160b50a2479d37eb74ba71577380b9afe4f5",
+                "reference": "7a83160b50a2479d37eb74ba71577380b9afe4f5",
                 "shasum": ""
             },
             "require": {
@@ -4589,7 +4589,7 @@
             ],
             "description": "Symfony SwiftmailerBundle",
             "homepage": "http://symfony.com",
-            "time": "2019-01-05T11:51:59+00:00"
+            "time": "2019-04-18T15:52:54+00:00"
         },
         {
             "name": "symfony/translation",

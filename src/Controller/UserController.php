@@ -26,34 +26,36 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $secret = "6Le0DpsUAAAAAI-SEJXK09HZ57KpIMrIqO3AP8n9";
-	// Paramètre renvoyé par le recaptcha
-	$response = $_POST['g-recaptcha-response'];
-	// On récupère l'IP de l'utilisateur
-	$remoteip = $_SERVER['REMOTE_ADDR'];
+	        // Paramètre renvoyé par le recaptcha
+	        $response = $_POST['g-recaptcha-response'];
+	        // On récupère l'IP de l'utilisateur
+	        $remoteip = $_SERVER['REMOTE_ADDR'];
 	
-	$api_url = "https://www.google.com/recaptcha/api/siteverify?secret=" 
-	    . $secret
-	    . "&response=" . $response
-	    . "&remoteip=" . $remoteip ;
+	    $api_url = "https://www.google.com/recaptcha/api/siteverify?secret=" 
+	        . $secret
+	        . "&response=" . $response
+	        . "&remoteip=" . $remoteip ;
 	
-	$decode = json_decode(file_get_contents($api_url), true);
+    	$decode = json_decode(file_get_contents($api_url), true);
 	
-	if ($decode['success'] == true) {
-        $hash = $encoder->encodePassword($psychologue, $psychologue->getMotDePasse());
-            $psychologue->setMotDePasse($hash);
-            $manager->persist($psychologue);
-            $manager->flush();
-	}
+	        if ($decode['success'] == true) {
+                 $hash = $encoder->encodePassword($psychologue, $psychologue->getMotDePasse());
+                 $psychologue->setMotDePasse($hash);
+                 $manager->persist($psychologue);
+                 $manager->flush();
+	        }
 	
-	else {
-        // C'est un robot ou le code de vérification est incorrecte
-	}
+	        else {
+              // C'est un robot ou le code de vérification est incorrecte
+	        }
             return $this->redirectToRoute('connexion_user');
         }
-        return $this->render('user/inscription.html.twig', [
-            'form' => $form->createView()
+    return $this->render('user/inscription.html.twig', [
+        'form' => $form->createView()
         ]);
     }
+
+
     /**
      * @Route("/connexion", name="connexion_user")
      */
@@ -67,12 +69,16 @@ class UserController extends AbstractController
             'username' => $username
         ]);
     }
+
+
     /**
      * @Route("/deconnexion", name="deconnexion_user")
      */
     public function deconnexion() {}
 
-        /**
+
+
+    /**
      * @Route("/connexionPatient", name="connexion_patient")
      */
     public function connexionPatient(Request $request, ObjectManager $manager, PatientRepository $repo)
@@ -105,10 +111,11 @@ class UserController extends AbstractController
      /**
      * @Route("/inscriptionPatient", name="inscription_patient")
      */
+
     public function inscriptionPatient(Request $request, ObjectManager $manager){
         $date = new \DateTime('@'.strtotime('now'));
         $patient = new Patient();
-       // $psychologue = new Psychologue();
+        // $psychologue = new Psychologue();
         /*$psychologue = $manager->createQuery('SELECT p FROM App\Entity\Psychologue p')->getResult();
         dump($psychologue);*/
         $form = $this->createForm(InscriptionPatientType::class, $patient);
@@ -118,24 +125,24 @@ class UserController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $secret = "6Le0DpsUAAAAAI-SEJXK09HZ57KpIMrIqO3AP8n9";
             $response = $_POST['g-recaptcha-response'];
-	// On récupère l'IP de l'utilisateur
-	$remoteip = $_SERVER['REMOTE_ADDR'];
+	    // On récupère l'IP de l'utilisateur
+	    $remoteip = $_SERVER['REMOTE_ADDR'];
 	
-	$api_url = "https://www.google.com/recaptcha/api/siteverify?secret=" 
+	    $api_url = "https://www.google.com/recaptcha/api/siteverify?secret=" 
 	    . $secret
 	    . "&response=" . $response
 	    . "&remoteip=" . $remoteip ;
 	
-	$decode = json_decode(file_get_contents($api_url), true);
+	    $decode = json_decode(file_get_contents($api_url), true);
 	
-	if ($decode['success'] == true) {
+	    if ($decode['success'] == true) {
             $patient->setNbrVisite($x++)
                     ->setTroubleDeSommeil(false)
                     ->setDateDerniereVisite($date);
 
             $manager->persist($patient);
             $manager->flush();
-         }
+        }
          else {
             // C'est un robot ou le code de vérification est incorrecte
          }

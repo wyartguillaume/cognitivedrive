@@ -59,6 +59,16 @@ class Psychologue implements UserInterface
      */
     private $patients;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
     public function __construct()
     {
         $this->patients = new ArrayCollection();
@@ -175,6 +185,30 @@ class Psychologue implements UserInterface
                      $patient->setPsychologue(null);
                  }
              }
+
+             return $this;
+         }
+
+         public function getToken(): ?string
+         {
+             return $this->token;
+         }
+
+         public function setToken(string $token): self
+         {
+             $this->token = $token;
+
+             return $this;
+         }
+
+         public function getIsActive(): ?bool
+         {
+             return $this->isActive;
+         }
+
+         public function setIsActive(bool $isActive): self
+         {
+             $this->isActive = $isActive;
 
              return $this;
          }

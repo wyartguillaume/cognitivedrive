@@ -36,6 +36,11 @@ class Session
      */
     private $nbrTotaleButtonFrein;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Patient", inversedBy="sessions")
+     */
+    private $patient;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +90,18 @@ class Session
     public function setNbrTotaleButtonFrein(?int $nbrTotaleButtonFrein): self
     {
         $this->nbrTotaleButtonFrein = $nbrTotaleButtonFrein;
+
+        return $this;
+    }
+
+    public function getPatient(): ?Patient
+    {
+        return $this->patient;
+    }
+
+    public function setPatient(?Patient $patient): self
+    {
+        $this->patient = $patient;
 
         return $this;
     }

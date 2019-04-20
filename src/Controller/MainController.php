@@ -26,6 +26,7 @@ class MainController extends AbstractController
      */
     public function aide()
     {
+    
         return $this->render('main/aide.html.twig');
     }
 
@@ -42,7 +43,7 @@ class MainController extends AbstractController
      */
     public function patient(PatientRepository $repo, ObjectManager $manager, PsychologueRepository $repoPsy)
     {
-       $patientList = $repo->findPsychoId($this->getUser()->getId());
+        $patientList = $repo->findPsychoId($this->getUser()->getId());
         return $this->render('main/patient.html.twig', [
             'patients' => $patientList
         ]);
