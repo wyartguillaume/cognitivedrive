@@ -7,9 +7,11 @@ use App\Form\InscriptionType;
 use App\Form\ConnexionPatientType;
 use App\Form\InscriptionPatientType;
 use App\Repository\PatientRepository;
+use App\Repository\PsychologueRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -19,7 +21,7 @@ class UserController extends AbstractController
     /**
      * @Route("/inscription", name="inscription_user")
      */
-    public function inscription(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function inscription(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
     {
         $psychologue = new Psychologue();
         $form = $this->createForm(InscriptionType::class, $psychologue);
@@ -38,17 +40,29 @@ class UserController extends AbstractController
 	
     	$decode = json_decode(file_get_contents($api_url), true);
 	
-	        if ($decode['success'] == true) {
+	       // if ($decode['success'] == true) {
                  $hash = $encoder->encodePassword($psychologue, $psychologue->getMotDePasse());
                  $psychologue->setMotDePasse($hash);
                  $manager->persist($psychologue);
                  $manager->flush();
-	        }
-	
-	        else {
-              // C'est un robot ou le code de vérification est incorrecte
-	        }
+                 $this->addFlash("success", "Veuillez confirmer votre compte ".$psychologue->getEmail());
+            $message = (new \Swift_Message("Confirmation de votre compte"))
+                ->setFrom("verification@cognitivedrive.be")
+                ->setTo($psychologue->getEmail())
+                ->setBody($this->renderView("user/verifCompte.html.twig", [
+                    "user"=>$psychologue
+                ]), "text/html");
+            $mailer->send($message);
+
             return $this->redirectToRoute('connexion_user');
+	      //  }
+	
+	       // else {
+              // C'est un robot ou le code de vérification est incorrecte
+           // }
+            //dump($psychologue);
+           // die();
+
         }
     return $this->render('user/inscription.html.twig', [
         'form' => $form->createView()
@@ -63,10 +77,17 @@ class UserController extends AbstractController
     {
         $error = $utils->getLastAuthenticationError();
         $username = $utils->getLastUsername();
-
+        $inactivAccount = null;
+        $cache = new FilesystemCache();
+        if($cache->has("error")) //on recupere une valeur qui se trouve dans error
+        {
+            $inactivAccount = $cache->get("error");
+            $cache->delete("error");
+        }
         return $this->render('user/connexion.html.twig', [
             'hasError' => $error !== null,
-            'username' => $username
+            'username' => $username,
+            'inactiveAccount'=>$inactivAccount
         ]);
     }
 
@@ -150,6 +171,21 @@ class UserController extends AbstractController
     return $this->render('user/inscriptionPatient.html.twig', [
         'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/verifCompte/{token}", name="account_confirm")
+     */
+    public function accountConfirm($token, PsychologueRepository $repo, ObjectManager $manager){
+        $psycho = $repo->findOneByToken($token);
+
+        $psycho->setIsActive(true);
+        $manager->persist($psycho);
+        
+        $manager->flush();
+        $this->addFlash("warning", "Votre compte est confirmé!");
+        return $this->redirectToRoute('connexion_user');
+        
     }
 
 

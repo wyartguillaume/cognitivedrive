@@ -18,6 +18,10 @@
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">Connexion</button>
+                    {% if inactiveAccount %}
+                        <div class="alert alert-danger"> {{inactiveAccount}}</div>
+                    {% endif %}
+                    
                 </div>
             </form>
             <p>Pas encore inscrit?<a href="{{path('inscription_user')}}">Inscrivez-vous</a></p>

@@ -26,7 +26,7 @@ security:
 
             logout:
                 path: deconnexion_user
-                target: acceuil
+                target: connexion_user
 
             # activate different ways to authenticate
 

@@ -18,6 +18,13 @@ class MainController extends AbstractController
      */
     public function acceuil()
     {
+        if($this->getUser()){
+        if(!$this->getUser()->getIsActive()){
+            $cache = new FilesystemCache();
+            $cache->set("error", "Pas encore activé");
+            return $this->redirectToRoute("connexion_user");
+        }
+    }
         return $this->render('main/acceuil.html.twig');
     }
 
