@@ -156,7 +156,7 @@ class UserController extends AbstractController
 	
 	    $decode = json_decode(file_get_contents($api_url), true);
 	
-	    if ($decode['success'] == true) {
+	    //if ($decode['success'] == true) {
             $patient->setNbrVisite($x++)
                     ->setTroubleDeSommeil(false)
                     ->setDateDerniereVisite($date);
@@ -164,10 +164,10 @@ class UserController extends AbstractController
             $manager->persist($patient);
             $manager->flush();
         }
-         else {
+       //  else {
             // C'est un robot ou le code de vérification est incorrecte
-         }
-        }
+        // }
+       // }
     return $this->render('user/inscriptionPatient.html.twig', [
         'form' => $form->createView()
         ]);

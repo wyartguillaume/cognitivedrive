@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Patient;
+use App\Entity\Session;
 use App\Entity\Psychologue;
+use App\Repository\PatientRepository;
 use App\Repository\PsychologueRepository;
 use Symfony\Component\Serializer\Serializer;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -32,9 +34,7 @@ class CarSimulGameController extends AbstractController
         $psychologue->setNom($nom)
                     ->setPrenom($prenom)
                     ->setEmail($email)
-                    ->setMotDePasse($hash)
-                    ->setToken('a')
-                    ->setIsActive(false);
+                    ->setMotDePasse($hash);
                     $manager->persist($psychologue);
                     $manager->flush();
                     return new Response();
@@ -44,61 +44,222 @@ class CarSimulGameController extends AbstractController
      * @Route("/gameInsPat", name="carSimulInscriptionPat")
      */
 
-    public function InscriptionGamePatient(ObjectManager $manager, PsychologueRepository $repoPsy)
+    public function InscriptionGamePatient(ObjectManager $manager, PatientRepository $repoPat, PsychologueRepository $repoPsy)
     {
         $date =  new \DateTime('@'.strtotime('now'));
         $pseudo = $_POST['pseudoPost'];
-        $psy = $_POST['psychoPost'];
+        //$psy = $_POST['psychoPost'];
         $dateDeNAissance = $_POST['dateDeNaissancePost'];
         $sexe = $_POST['sexePost'];
         $lateralite = $_POST['lateralitePost'];
         $groupe = $_POST['groupPost'];
-        $nom = $_POST['nomPost'];
+       /* $nom = $_POST['nomPost'];
         $prenom = $_POST['prenomPost'];
         $email = $_POST['emailPost'];
         $profession = $_POST['professionPost'];
         $etatCivil = $_POST['etatCivilPost'];
-        $nbrEnfant = $_POST['nbrEnfantPost'];
+        $nbrEnfant = $_POST['nbrEnfantPost'];*/
 
         $nbrVisite = 0; 
      
-    
-       // $hash = $encoder->encodePassword($psychologue, $psychologue->getMotDePasse());
         $patient = new Patient();
+        //$psycho = $manager->createQuery("SELECT p.psychologue App\Entity\Patient p WHERE p.id = 1")->getResult();
+
         $patient->setPseudo($pseudo)
-                ->setPsychologue($pseud)
+                ->setPsychologue(1)
                 ->setDateDeNaissance($dateDeNAissance)
                 ->setSexe($sexe)
                 ->setLateralite($lateralite)
                 ->setGroupe($groupe)
-                ->setNom($nom)
+                /*->setNom($nom)
                 ->setPrenom($prenom)
                 ->setEmail($email)
                 ->setProfession($profession)
                 ->setEtatCivil($etatCivil)
-                ->setNbrEnfants($nbrEnfant)
+                ->setNbrEnfants($nbrEnfant)*/
                 ->setNbrVisite($nbrVisite++)
                 ->setDateDerniereVisite($date)
                 ->setTroubleDeSommeil(false);
-                    $manager->persist($psychologue);
+                    $manager->persist($patient);
                     $manager->flush();
                     return new Response();
     }
 
     /**
-     * @Route("/gameInsPatJson", name="carSimulInscriptionPatJson")
-    */
-    public function InscriptionGamePatientJson(ObjectManager $manager, PsychologueRepository $repoPsy)
-    {
-
-    $psycho = $repoPsy->findAll();
-    $encoders = [new XmlEncoder(), new JsonEncoder()];
-    $normalizers = [new ObjectNormalizer()];
-
-    $serializer = new Serializer($normalizers, $encoders);
-    $jsonContent = $serializer->serialize($psycho, 'json');
-    return new Response($jsonContent);
+     * @Route("/gameConnexionPsycho", name="carSimulConnexionPsy")
+     */
+    public function ConnexionPsy(ObjectManager $manager, PsychologueRepository $repoPsy, PatientRepository $repoPat){
+        $psycho = $manager->createQuery("SELECT p.email, p.motDePasse FROM App\Entity\Psychologue p")->getResult();
+   
+    return $this->json($psycho, 200, [], [
+        ObjectNormalizer::ATTRIBUTES => [
+            'email',
+            'motDePasse'
+        ]
+    ]);
     }
+
+    /**
+     * @Route("/gameConnexionPatient", name="carSimulConnexionPatient")
+     */
+    public function ConnexionPatient(ObjectManager $manager, PatientRepository $repoPat){
+        $patient = $manager->createQuery("SELECT p.pseudo, p.dateDeNaissance, p.lateralite, p.groupe FROM App\Entity\Patient p")->getResult();
+   
+    return $this->json($patient, 200, [], [
+        ObjectNormalizer::ATTRIBUTES => [
+            'pseudo',
+            'dateDeNaissance',
+            'lateralite',
+            'groupe'
+        ]
+    ]);
+    }
+
+    /**
+     * @Route("/gameCreateDropdown", name="carSimulCreateDropdown")
+    */
+    public function CreateDropdown(ObjectManager $manager, PsychologueRepository $repoPsy, PatientRepository $repoPat)
+    {
+    $psycho = $manager->createQuery("SELECT p. id, p.nom, p.prenom FROM App\Entity\Psychologue p")->getResult();
+   
+    return $this->json($psycho, 200, [], [
+        ObjectNormalizer::ATTRIBUTES => [
+            'id',
+            'nom',
+            'prenom'
+        ]
+    ]);
+
+    }
+
+     /**
+     * @Route("/gameCreateSessionLevel1", name="carSimulCreateSessionLevel1")
+    */
+    public function CreateSession(ObjectManager $manager)
+    {
+        $vitesseMoyenne = $_POST["vitesseMoyenne"];
+        $nbrButtonAcceleration = $_POST["nbrAcceleration"];
+        $nbrButtonBrake = $_POST["nbrBrake"];
+        $dateSession = $_POST["dateSession"];
+        $rencontreRouteGauche = $_POST["RencontreRouteGauche"];
+        $rencontreRouteDroite = $_POST["RencontreRouteDroite"];
+        $level = $_POST["Level"];
+        $choixJourNuit = $_POST["ChoixJourNuit"];
+        $tempsSortieGauche = $_POST["TempsSortieGauche"];
+        $tempsSortieDroite = $_POST["TempsSortieDroite"];
+
+        
+
+        $session = new Session();
+        $session->setVitesseMoyenne($vitesseMoyenne)
+                ->setNbrTotaleButtonAcceleration($nbrButtonAcceleration)
+                ->setNbrTotaleButtonFrein($nbrButtonBrake)
+                ->setDateSession($dateSession)
+                ->setNbrRencontreRouteDroite($rencontreRouteDroite)
+                ->setNbrRencontreRouteGauche($rencontreRouteGauche)
+                ->setLevel($level)
+                ->setChoixJourNuit($choixJourNuit);
+
+        $manager->persist($session);
+        $manager->flush();
+
+        return new Response();
+
+
+    }
+
+     /**
+     * @Route("/gameCreateSessionLevel2", name="carSimulCreateSessionLevel2")
+    */
+    public function CreateSessionLevel2(ObjectManager $manager)
+    {
+        $vitesseMoyenne = $_POST["vitesseMoyenne"];
+        $nbrButtonAcceleration = $_POST["nbrAcceleration"];
+        $nbrButtonBrake = $_POST["nbrBrake"];
+        $dateSession = $_POST["dateSession"];
+        $rencontreRouteGauche = $_POST["RencontreRouteGauche"];
+        $rencontreRouteDroite = $_POST["RencontreRouteDroite"];
+        $vitesseMoyenneZoneObstacle = $_POST["VitesseMoyenneZoneObstacle"];
+        $tempsReaction = $_POST["TempsReaction"];
+        $nbrPietonsToucheDroit= $_POST["NbrPietonsToucheDroit"];
+        $nbrPietonsToucheGauche = $_POST["NbrPietonsToucheGauche"];
+        $nbrAnimalToucheDroit = $_POST["NbrAnimalToucheDroit"];
+        $nbrAnimalToucheGauche = $_POST["NbrAnimalToucheGauche"];
+        $nbrTotalObstacleToucheDroite = $_POST["NbrTotalObstacleToucheDroite"];
+        $nbrTotalObstacleToucheGauche = $_POST["NbrTotalObstacleToucheGauche"];
+        $level = $_POST["Level"];
+        $choixJourNuit = $_POST["ChoixJourNuit"];
+        $tempsSortieGauche = $_POST["TempsSortieGauche"];
+        $tempsSortieDroite = $_POST["TempsSortieDroite"];
+        
+
+        $session = new Session();
+        $session->setVitesseMoyenne($vitesseMoyenne)
+                ->setNbrTotaleButtonAcceleration($nbrButtonAcceleration)
+                ->setNbrTotaleButtonFrein($nbrButtonBrake)
+                ->setDateSession($dateSession)
+                ->setNbrRencontreRouteDroite($rencontreRouteDroite)
+                ->setNbrRencontreRouteGauche($rencontreRouteGauche)
+                ->setVitesseMoyenneZoneObstacle($vitesseMoyenneZoneObstacle)
+                ->setTempsDeReaction($tempsReaction)
+                ->setNbrAnimalToucheDroite($nbrAnimalToucheDroit)
+                ->setNbrAnimalToucheGauche($nbrAnimalToucheGauche)
+                ->setNbrSortieTimerDroite($tempsSortieDroite)
+                ->setNbrSortieTimerGauche($tempsSortieGauche)
+                ->setLevel($level)
+                ->setNbrTouchePietonsDroit($nbrPietonsToucheDroit)
+                ->setNbrTouchePietonsGauche($nbrPietonsToucheGauche)
+                ->setNbrTotalObstacleToucheDroit($nbrTotalObstacleToucheDroite)
+                ->setNbrTotalObstacleToucheGauche($nbrTotalObstacleToucheGauche)
+                ->setChoixJourNuit($choixJourNuit);
+
+        $manager->persist($session);
+        $manager->flush();
+
+        return new Response();
+
+
+    }
+
+     /**
+     * @Route("/gameCreateSessionLevel3", name="carSimulCreateSessionLevel3")
+    */
+    public function CreateSessionLevel3(ObjectManager $manager)
+    {
+        $vitesseMoyenne = $_POST["vitesseMoyenne"];
+        $nbrButtonAcceleration = $_POST["nbrAcceleration"];
+        $nbrButtonBrake = $_POST["nbrBrake"];
+        $dateSession = $_POST["dateSession"];
+        $rencontreRouteGauche = $_POST["RencontreRouteGauche"];
+        $rencontreRouteDroite = $_POST["RencontreRouteDroite"];
+        $tempsSortieGauche = $_POST["TempsSortieGauche"];
+        $tempsSortieDroite = $_POST["TempsSortieDroite"];
+        $nbrVoitureTropProche = $_POST["NbrVoitureTropProche"];
+        
+
+        $session = new Session();
+        $session->setVitesseMoyenne($vitesseMoyenne)
+                ->setNbrTotaleButtonAcceleration($nbrButtonAcceleration)
+                ->setNbrTotaleButtonFrein($nbrButtonBrake)
+                ->setDateSession($dateSession)
+                ->setNbrRencontreRouteDroite($rencontreRouteDroite)
+                ->setNbrRencontreRouteGauche($rencontreRouteGauche)
+                ->setNbrSortieTimerDroite($tempsSortieDroite)
+                ->setNbrSortieTimerGauche($tempsSortieGauche)
+                ->setNbrVoitureTropProche($nbrVoitureTropProche)
+                ->setLevel($level)
+                ->setChoixJourNuit($choixJourNuit);
+
+        $manager->persist($session);
+        $manager->flush();
+
+        return new Response();
+
+
+    }
+
+
+
 
 
 }
