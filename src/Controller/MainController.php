@@ -8,6 +8,7 @@ use App\Repository\PatientRepository;
 use App\Repository\PsychologueRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
@@ -37,13 +38,6 @@ class MainController extends AbstractController
         return $this->render('main/aide.html.twig');
     }
 
-    /**
-     * @Route("/configuration", name="configuration")
-     */
-    public function config()
-    {
-        return $this->render('main/config.html.twig');
-    }
 
     /**
      * @Route("/patient", name="patient")

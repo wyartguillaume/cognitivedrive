@@ -9,7 +9,6 @@
         <div class="col-md-6">
       {{ form_start(form) }}
             {{ form_row(form.pseudo, {'label': 'Pseudo','attr': {'placeholder': "Votre pseudo ..."}}) }}
-            <p style="color: red;">{{error}}</p>
             <button type="submit" class="btn btn-success">Connexion patient!</button>
       {{ form_end(form) }}
       <p>Pas encore inscris?<a href="{{path('inscription_patient')}}"> Inscrivez-vous!</a></p>

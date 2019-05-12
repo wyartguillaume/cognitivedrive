@@ -1,11 +1,11 @@
 <h2>Hello {{ user.email }} !</h2>
 
-<p>Thanks for creating a pixel souls account in order to access our game.</p>
-<p>You will find a copy of your informations below.</p>
+<p>Merci d'avoir créer votre compte chez CognitiveDrive!!</p>
+<p>Voici une copie de vos informations ci-dessous</p>
 <ul>
-    <li>First name : {{ user.nom }}</li>
-    <li>Last name : {{ user.prenom }}</li>
+    <li>Nom : {{ user.nom }}</li>
+    <li>Prenom : {{ user.prenom }}</li>
     <li>Email : {{ user.email }}</li>
 </ul>
 
-<a href="{{ url('account_confirm', { 'token': user.token }) }}">Please verifiy your account by clicking this link !</a>
+<a href="{{ url('account_confirm', { 'token': user.token }) }}">Veuillez cliquez sur ce lien afin de confirmer votre compte!</a>

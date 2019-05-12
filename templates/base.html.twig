@@ -3,11 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Psy'UCL -
+    <title>CogntiveDrive -
         {% block title %}Bienvenue{% endblock %}
     </title>
     <link href="/CSS/bootstrap.min.css" rel="stylesheet">
     <link href="/CSS/index.css" rel="stylesheet">
+    <link rel="icon" href="Image/favicon.ico" />
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     {% block stylesheets %}{% endblock %}
 </head>
@@ -30,15 +31,9 @@
                         </a>
                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
 
-                            <a class="dropdown-item" href="{{path('consultation')}}">Consultation</a>
-
-                            <a class="dropdown-item" href="{{path('inscription_patient')}}">Inscription patient</a>
-
-                            <a class="dropdown-item" href="{{path('configuration')}}">Configuration</a>
-
-
-                            <a class="dropdown-item" href="{{path('patient')}}">Patients</a>
-
+                            <a class="dropdown-item" href="{{path('account_profile')}}">Modifier votre profil</a>
+                            <a class="dropdown-item" href="{{path('account_password')}}">Modifier votre mot de passe</a>
+                            <a class="dropdown-item" href="{{path('aide')}}">Aide</a>
 
                             <div class="dropdown-divider"></div>
 
@@ -50,6 +45,14 @@
                     <li class="nav-item active">
                             <a class="nav-link" href="{{path('acceuil')}}">Acceuil</a>
                         </li>
+
+                    <li class="nav-item">
+                            <a class="nav-link" href="{{path('consultation')}}">Consultation</a>
+                        </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('patient')}}">Vos patients</a>
+                    </li>     
                     {% else %}
                     <li class="nav-item active">
                         <a class="nav-link" href="{{path('acceuil')}}">Acceuil</a>

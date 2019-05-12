@@ -1,15 +1,20 @@
 <?php 
 namespace App\Controller;
 use App\Entity\Patient;
+use App\Form\AccountType;
 use App\Entity\Psychologue;
 use Doctrine\ORM\Mapping\Id;
 use App\Form\InscriptionType;
+use App\Entity\PasswordUpdate;
+use App\Form\PasswordUpdateType;
 use App\Form\ConnexionPatientType;
 use App\Form\InscriptionPatientType;
 use App\Repository\PatientRepository;
+use Symfony\Component\Form\FormError;
 use App\Repository\PsychologueRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -105,6 +110,8 @@ class UserController extends AbstractController
     public function connexionPatient(Request $request, ObjectManager $manager, PatientRepository $repo)
     {
         $date = new \DateTime('@'.strtotime('now'));
+        $tmp = false;
+        $nbrfois = 0;
         $patient = new Patient();
         $form = $this->createForm(ConnexionPatientType::class, $patient);
         $form->handleRequest($request);
@@ -115,16 +122,18 @@ class UserController extends AbstractController
                 if($nom == $patient->getPseudo() && $form->isSubmitted() && $form->isValid()){
                     $patient->setDateDerniereVisite($date);
                     $manager->flush();
+                    $tmp = true;
                     return $this->redirectToRoute('acceuil');
                 }
-                else{$error="Pseudo inexistant!!!";}
-                ;
+                else {$nbrfois += 1;}
             }
+        }
+        if($tmp == false && $nbrfois >8){
+            $this->addFlash("warning", "pseudo incorrect!");
         }
     
        return $this->render('user/connexionPatient.html.twig', [
-        'form' => $form->createView(),
-        'error' => $error
+        'form' => $form->createView()
         
        ]);
     }
@@ -186,6 +195,77 @@ class UserController extends AbstractController
         $this->addFlash("warning", "Votre compte est confirmé!");
         return $this->redirectToRoute('connexion_user');
         
+    }
+
+    /**
+     * Affiche et traite les modifications de profil
+     * @Route("/profile", name="account_profile")
+     * @return void
+     */
+    public function profile(Request $request, ObjectManager $manager) {
+        $user = $this->getUser();
+        $form = $this->createForm(AccountType::class, $user);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "les données du profil ont été enregistrées avec succès !"
+            );
+        }
+
+        return $this->render('user/profile.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+        /**
+         * permet de modifier me mdp
+         *
+         * @Route("/password-update", name= "account_password")
+         * 
+         * @return Response
+         */
+    public function updatePassword(Request $request, UserPasswordEncoderInterface $encoder,  ObjectManager $manager){
+        $passwordUpdate = new PasswordUpdate();
+
+        $user = $this->getUser();
+
+        $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
+
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid()){
+            if(!password_verify($passwordUpdate->getOldPassword(), $user->getMotDePasse())){
+                $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez tapé n'est pas votre mot de passe actuel !"));
+            }
+            else{
+                $newPassword = $passwordUpdate->getNewPassword();
+                $hash = $encoder->encodePassword($user, $newPassword);
+
+                $user->setMotDePasse($hash);
+                $manager->flush();
+
+                $this->addFlash(
+                    'success',
+                    "Votre mot de passe a bien été modifié"
+                );
+
+                return $this->redirectToRoute('acceuil');
+            }
+        }
+            
+
+
+        return $this->render('user/password.html.twig',[
+           'form'=>$form->createView()
+           
+        ]);
     }
 
 
