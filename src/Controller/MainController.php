@@ -9,6 +9,7 @@ use App\Repository\PsychologueRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Cache\Simple\FilesystemCache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
@@ -29,18 +30,11 @@ class MainController extends AbstractController
         return $this->render('main/acceuil.html.twig');
     }
 
-    /**
-     * @Route("/aide", name="aide")
-     */
-    public function aide()
-    {
-    
-        return $this->render('main/aide.html.twig');
-    }
 
 
     /**
      * @Route("/patient", name="patient")
+     * @IsGranted("ROLE_USER")
      */
     public function patient(PatientRepository $repo, ObjectManager $manager, PsychologueRepository $repoPsy)
     {
@@ -52,6 +46,7 @@ class MainController extends AbstractController
 
     /**
      * @Route("/consultation", name="consultation")
+     * @IsGranted("ROLE_USER")
      */
     public function consultation()
     {

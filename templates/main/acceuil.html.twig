@@ -8,8 +8,19 @@
 
     <h1 style="text-align:center;"> Un plaisir de vous revoir </h1>
     <h2 style="text-align:center; color:green;">{{ app.user.nom }} {{ app.user.prenom }}!!</h2>
-    <img src="Image/acceuil.jpg">
-
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="Image/acceuil.jpg" alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="Image/acceuil.jpg" alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="Image/acceuil.jpg" alt="Third slide">
+    </div>
+  </div>
+</div>
 {% else %}
   
 <h1> Bienvenue sur notre site CognitiveDrive

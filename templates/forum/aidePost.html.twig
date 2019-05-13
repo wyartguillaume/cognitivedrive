@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AidePost{% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="alert alert-light">
+    <h3 class="alert-heading">Un problème? Une question? Alors n'hésitez pas à écrire sur ce forum!!</h3>
+        {{form_start(form)}}
+        {{ form_row(form.contenu, {'label': 'Contenu','attr': {'placeholder': "Un problème/une question? Ecrivez ici!!"}}) }}
+        <button type="submit" class="btn btn-success">Postez</button>
+        {{form_end(form)}}
+</div>
+</div>
+{% endblock %}

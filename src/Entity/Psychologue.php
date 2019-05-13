@@ -71,9 +71,21 @@ class Psychologue implements UserInterface
      */
     private $isActive;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Role", mappedBy="users")
+     */
+    private $userRoles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="psycho", orphanRemoval=true)
+     */
+    private $commentaires;
+
     public function __construct()
     {
         $this->patients = new ArrayCollection();
+        $this->userRoles = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     /**
@@ -155,7 +167,11 @@ class Psychologue implements UserInterface
         public function getSalt(){}
         
         public function getRoles(){
-            return ['ROLE_USER'];
+            $roles = $this->userRoles->map(function($role){
+                return $role->getTitle();
+            })->toArray();
+            $roles[]= 'ROLE_USER';
+           return $roles;
          }
     
          public function getPassword(){
@@ -223,6 +239,65 @@ class Psychologue implements UserInterface
          public function setIsActive(bool $isActive): self
          {
              $this->isActive = $isActive;
+
+             return $this;
+         }
+
+         /**
+          * @return Collection|Role[]
+          */
+         public function getUserRoles(): Collection
+         {
+             return $this->userRoles;
+         }
+
+         public function addUserRole(Role $userRole): self
+         {
+             if (!$this->userRoles->contains($userRole)) {
+                 $this->userRoles[] = $userRole;
+                 $userRole->addUser($this);
+             }
+
+             return $this;
+         }
+
+         public function removeUserRole(Role $userRole): self
+         {
+             if ($this->userRoles->contains($userRole)) {
+                 $this->userRoles->removeElement($userRole);
+                 $userRole->removeUser($this);
+             }
+
+             return $this;
+         }
+
+         /**
+          * @return Collection|Commentaire[]
+          */
+         public function getCommentaires(): Collection
+         {
+             return $this->commentaires;
+         }
+
+         public function addCommentaire(Commentaire $commentaire): self
+         {
+             if (!$this->commentaires->contains($commentaire)) {
+                 $this->commentaires[] = $commentaire;
+                 $commentaire->setPsycho($this);
+             }
+
+             return $this;
+         }
+
+         public function removeCommentaire(Commentaire $commentaire): self
+         {
+             if ($this->commentaires->contains($commentaire)) {
+                 $this->commentaires->removeElement($commentaire);
+                 // set the owning side to null (unless already changed)
+                 if ($commentaire->getPsycho() === $this) {
+                     $commentaire->setPsycho(null);
+                 }
+             }
 
              return $this;
          }
