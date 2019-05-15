@@ -6,7 +6,39 @@
 <div class="container">
 <h1>Bienvenue sur notre forum</h1>
 
-<h3 class="alert-heading">Un problème? Une question? Alors n'hésitez pas à écrire sur ce forum!!</h3>
-<a class="btn btn-primary btn-lg" href="{{path('aidePost')}}" role="button">Appuyer ici!</a></td>
+
+ <table class="table table-striped table-sm d-none d-lg-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Sujet</th>
+                    <th>Auteur</th>
+                    <th>Date</th>
+                    <th>message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in  comment %}
+                    <tr>
+                        <td>
+                            {{ c.sujet }}
+                        </td>
+                        <td><a href="{{path('reponseAide', {'id': c.id})}}">{{ c.psycho.nom }} {{ c.psycho.prenom }}</a></td>
+                        <td>{{ c.createdAt | date("d/m/Y G:i:s") }}</td>
+                        <td>
+                            {{c.contenu}}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            <div class="alert alert-light">
+            <h3 class="alert-heading">Un problème? Une question? Alors n'hésitez pas à écrire sur ce forum!!</h3>
+             {{form_start(form)}}
+             {{ form_row(form.sujet, {'label': 'Sujet','attr': {'placeholder': "Le sujet"}}) }}
+             {{ form_row(form.contenu, {'label': 'Contenu','attr': {'placeholder': "Un problème/une question? Ecrivez ici!!"}}) }}
+            <button type="submit" class="btn btn-success">Postez</button>
+            {{form_end(form)}}
+</div>
+            </div>
 </div>
 {% endblock %}

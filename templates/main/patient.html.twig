@@ -44,7 +44,7 @@
         <td>{{p.nbrEnfants}}</td>
         <td>{{p.nbrVisite}}</td>
         <td>{{p.troubleDeSommeil}}</td>
-        <td><a class="btn btn-primary btn-lg" href="#" role="button">Voir ses statistiques</a></td>
+        <td><a class="btn btn-primary btn-lg" href="{{path('consultation', {'id': p.id})}}" role="button">Voir ses statistiques</a></td>
     </tr>
 {% endfor %}   
 </tbody>

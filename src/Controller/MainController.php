@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Patient;
 use App\Entity\Psychologue;
 use App\Repository\PatientRepository;
+use App\Repository\SessionRepository;
 use App\Repository\PsychologueRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,12 +46,18 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/consultation", name="consultation")
+     * @Route("/consultation/{id}", name="consultation")
      * @IsGranted("ROLE_USER")
      */
-    public function consultation()
+    public function consultation(Patient $patient, SessionRepository $repo)
     {
-        return $this->render('main/consultation.html.twig');
+        $session = $repo->findAll();
+
+        return $this->render('main/consultation.html.twig', [
+            'id' => $patient->getId(),
+            'session' => $session,
+            'patient' =>$patient
+        ]);
     }
 
 }

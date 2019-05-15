@@ -81,11 +81,17 @@ class Psychologue implements UserInterface
      */
     private $commentaires;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Conversation", mappedBy="auteur", orphanRemoval=true)
+     */
+    private $conversations;
+
     public function __construct()
     {
         $this->patients = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
+        $this->conversations = new ArrayCollection();
     }
 
     /**
@@ -296,6 +302,37 @@ class Psychologue implements UserInterface
                  // set the owning side to null (unless already changed)
                  if ($commentaire->getPsycho() === $this) {
                      $commentaire->setPsycho(null);
+                 }
+             }
+
+             return $this;
+         }
+
+         /**
+          * @return Collection|Conversation[]
+          */
+         public function getConversations(): Collection
+         {
+             return $this->conversations;
+         }
+
+         public function addConversation(Conversation $conversation): self
+         {
+             if (!$this->conversations->contains($conversation)) {
+                 $this->conversations[] = $conversation;
+                 $conversation->setAuteur($this);
+             }
+
+             return $this;
+         }
+
+         public function removeConversation(Conversation $conversation): self
+         {
+             if ($this->conversations->contains($conversation)) {
+                 $this->conversations->removeElement($conversation);
+                 // set the owning side to null (unless already changed)
+                 if ($conversation->getAuteur() === $this) {
+                     $conversation->setAuteur(null);
                  }
              }
 

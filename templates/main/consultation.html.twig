@@ -1,9 +1,39 @@
 {% extends 'base.html.twig' %}
-{% block title %}  consultation{% endblock %}
+{% block title %} consultation{% endblock %}
 
 
 {% block body %}
 
 <h1> Bienvenue dans la page consultation </h1>
-
+<table class="table table-hover">
+<thead>
+ <tr class="table-primary">
+      <th scope="col">Pseudo</th>
+      <th scope="col">Sexe</th>
+      <th scope="col">Date de naissance</th>
+      <th scope="col">Lateralite</th>
+      <th scope="col">Groupe</th>
+      <th scope="col">Date de derniere visite</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Prenom</th>
+      <th scope="col">Email</th>
+      <th scope="col">Profession</th>
+      <th scope="col">Etat Civil</th>
+      <th scope="col">Nombre d'enfants</th>
+      <th scope="col">Nombre de visite</th>
+      <th scope="col">Trouble de sommeil</th>
+      <th></th>
+    </tr>
+</thead>
+<tbody>
+{% for s in session %}
+{% if s.patient.id == patient.id %}
+     <tr class="table-secondary">
+        <td>{{s.vitesseMoyenne}}</td>
+        <td>{{s.nbrTotaleButtonAcceleration}}</td>
+    </tr>
+    {% endif %}
+{% endfor %}
+</tbody>
+</table>
 {% endblock %}

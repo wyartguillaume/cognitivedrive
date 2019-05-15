@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réponse{% endblock %}
+
+{% block body %}
+<div class="container">
+<br>
+<h3 style="color:red;">Message</h3>
+    <div class="jumbotron" style="background-color: #41487E;">
+         <h4 class="display-5">{{commentaire.psycho.nom}} {{commentaire.psycho.prenom}}</h4>
+         <p class="lead">{{commentaire.createdAt | date("d/m/Y G:i:s")}}</p>
+            <hr class="my-4">
+            <p>{{commentaire.contenu}}</p>
+            <a class="btn btn-success btn-lg" href="{{path('aide')}}" role="button">Retour au forum</a>
+        </div>
+        <h1>Les différentes réponses</h1>
+ {% if reponse | length > 0 %}
+    {% for r in reponse %}
+    {% if r.commentaire.id == commentaire.id %}
+    
+        <div class="jumbotron">
+            <h4 class="display-5">{{r.auteur.nom}} {{r.auteur.prenom}}</h4>
+            <p class="lead">{{r.createdAt | date("d/m/Y G:i:s")}}</p>
+            <hr class="my-4">
+            <p>{{r.reponse}}</p>
+        </div>
+        {% endif %}
+    {% endfor %}
+    {% else %}
+        <div class="alert alert-warning">
+            <p>
+                <strong> Vous n'avez pas encore de réponses </strong>
+            </p>
+        </div>
+    {% endif %}
+<div class="alert alert-light">
+    <h3 class="alert-heading">Vous pouvez répondre à ce poste</h3>
+      {{form_start(form)}}
+             {{ form_row(form.reponse, {'label': 'Contenu','attr': {'placeholder': "Vous pouvez répondre ici"}}) }}
+            <button type="submit" class="btn btn-success">Postez</button>
+            {{form_end(form)}}  
+</div>
+</div>
+{% endblock %}
