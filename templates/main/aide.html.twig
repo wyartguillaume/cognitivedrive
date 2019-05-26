@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Aide{% endblock %}
+
+{% block body %}
+<div class="container">
+<h2 style="text-align:center;">Bienvuenue sur notre site CognitiveDrive!</h2>
+
+<p style="text-align:center;"><b>Vous trouverez sur cette page, les différentes explications qui permettront de vous guider sur les divers fonctionnalités existantes sur notre site web et notre application</b></p>
+<div class="jumbotron"> 
+<h4>Au niveau du site web</h4>
+<p>Ce site Web va permettre de vous aider à analyser vos différentes données psychologiques sur un de vos patient récupéres depuis notre application.
+   Vous pourrez facilement analyser leurs résultats obtenus lors de la session de jeu! <p>
+<h4>Ses différentes fonctionnalités</h4>
+<p>Les onglets changent lorsque vous vous conntectez sur notre site web.<p>
+<hr class="my-4">
+<p><b>Avant que vous vous connectez sur notre site :</b></p>
+<ul>
+<li><b><a href="{{path('inscription_user')}}">Inscription :</a></b> Vous pourrez vous inscrire sur le site en mettant votre prénom, nom, email, le mot de passe. Après s'être inscrit, le site vous envoie un mail de vérification à l'adresse email que vous avez insérée.</li>
+
+<li><b><a href="{{path('connexion_user')}}">Connexion :</a></b> Si vous etes déjà inscrit à la base de données, il suffit alors de vous connecter avec votre mot de passe et votre email.</li>
+<li><b><a href="{{path('acceuil')}}">Accueil :</a></b> Première page qui apparait lorsque nous arrivons sur le site. Elle sera également toujours présente après la connexion.</li>
+
+</ul>
+
+
+<hr class="my-4">
+<p><b>Apres votre connexion:</b></p>
+<ul>
+<li><b><a href="#">Consultation :</a></b> Page où vous pourrez analyser les différentes données venant d’une session du jeu. Vous y retrouverez différents schémas et tableaux afin que vous puissez comparer toutes les données obtenues de vos patients.</li>
+<li><b><a href="{{path('forum')}}">Forum :</a></b> Petit forum dans lequel les utilisateurs peuvent poser leurs différentes questions ou signaler des problèmes dans l’application ou au niveau du site web.</li>
+
+<li><b><a href="{{path('inscription_patient')}}">Inscription d’un patient :</a></b> Formulaire dans lequel vous devrez insérer plusieurs données pour inscrire votre patient.</li>  
+
+<li><b><a href="{{path('patient')}}">Vos patients :</a></b> Cette page contiendra la liste de vos patients avec leurs différentes données insérées lors de leurs inscriptions.</li>
+
+<li><b><a href="{{path('account_index')}}">Votre profil :</a></b> Vous pourrez sur cette page voir vos différentes données personnelles et les modifier.</li>
+
+<li><b><a href="#">Déconnexion :</a></b> En appuyant sur cet onglet, vous vous déconnecterez.</li>
+</ul>
+</div>
+<div class="jumbotron"> 
+<h4>Au niveau de l'application</h4>
+<p>C’est un jeu qui va simuler la conduite d’une voiture. Il possède plusieurs niveaux dans lesquelles différents obstacles se présentent devant vous. Cette application a pour but de collecter différentes données d’une session de jeu afin de les analyser par la suite à l’aide du site Web. Ces données seront également présentes dans une page excel (CSV).</p>
+<h4>Ses différentes fonctionnalités</h4>
+<p><b style="color:#509F4E;">Menu principal :</b></p>
+<p>Vous devra vous inscrire ou vous connecter afin de pouvoir insérer par la suite votre patient (le joueur) avec lequel il veut faire passer le test. Vous choisissez ensuite un niveau durant la nuit ou durant la journée. A partir de ce moment-là, le niveau démarre et le joueur peut faire avancer la voiture.</p>
+
+<p><b style="color:#509F4E;">Les différents niveaux :</b></p>
+<p><b style="color:#278FC4;">Level1 :</b></p>
+<p>Le joueur se trouve dans une voiture sur une route au plein milieu d’un champ. 
+Pendant qu’il roule, il devra faire attention à ne pas dépasser la limite de vitesse qui est de 50km/h. On récupèrera différentes données à la fin de la partie (table session) telles que sa vitesse moyenne, le nombre de fois qu’il dépasse la route ou encore le nombre de fois qu’il appuie sur le frein.</p>
+<p><b style="color:#278FC4;">Level2 :</b></p>
+<p>Pendant qu’il roule, il devra faire attention à ne pas dépasser la limite de vitesse qui est de 50km/h, mais également à ne pas toucher les différents obstacles tels que des piétons et des animaux. Même principe que le niveau 1, mais ici, d’autres données seront également stockées.</p>
+<p><b style="color:#278FC4;">Level3 :</b></p>
+<p>Cette fois-ci le joueur doit suivre une voiture devant lui. Cette voiture va freiner quelques fois. Le but étant de ne pas dépasser ou toucher celle-ci. Ils récupèrent les mêmes données que le niveau 1 mis à part le nombre de fois que le joueur est trop proche de la voiture.</p>
+
+<p style="color: red;"><b>NB :</b> Chaque niveau possède un chronomètre qui va calculer si le niveau dure 30 secondes, 3 minutes ou 6 minutes</p>
+</div>
+</div>
+{% endblock %}

@@ -34,7 +34,7 @@
                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
 
                             <a class="dropdown-item" href="{{path('account_index')}}">Votre profil</a>
-                            <a class="dropdown-item" href="{{path('aide')}}">Aide</a>
+                            <a class="dropdown-item" href="{{path('forum')}}">Forum</a>
 
                             <div class="dropdown-divider"></div>
 
@@ -50,13 +50,25 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{path('patient')}}">Vos patients</a>
                     </li>     
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('inscription_patient')}}">Inscription de vos patient</a>
+                    </li>
+                     <li class="nav-item">
+                            <a class="nav-link" href="{{path('aide')}}">Aide</a>
+                        </li>
                     {% else %}
                     <li class="nav-item active">
                         <a class="nav-link" href="{{path('acceuil')}}">Acceuil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{path('aide')}}">Aide</a>
+                        <a class="nav-link" href="{{path('inscription_user')}}">Inscription</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('connexion_user')}}">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="{{path('aide')}}">Aide</a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
@@ -76,7 +88,8 @@
     </header>
     {% block body %}{% endblock %}
     <footer class="mt-5 bg-secondary py-5 text-center">
-        <a class="btn btn-secondary" href="#">A propos</a>
+        <p><a class="btn btn-secondary" href="{{path('propos')}}">A propos</a></p>
+        <p><a class="btn btn-secondary" href="{{path('rgpd')}}">Protection de vos données</a></p>
     </footer>
     <script src="/JS/jquery.min.js"></script>
     <script src="/JS/bootstrap.min.js"></script>

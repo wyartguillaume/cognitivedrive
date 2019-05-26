@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %} {% endblock %}
+{% block title %} Vos patients{% endblock %}
 
 
 {% block body %}
@@ -22,7 +22,6 @@
       <th scope="col">Profession</th>
       <th scope="col">Etat Civil</th>
       <th scope="col">Nombre d'enfants</th>
-      <th scope="col">Nombre de visite</th>
       <th scope="col">Trouble de sommeil</th>
       <th></th>
     </tr>
@@ -42,7 +41,6 @@
         <td>{{p.profession}}</td>
         <td>{{p.etatCivil}}</td>
         <td>{{p.nbrEnfants}}</td>
-        <td>{{p.nbrVisite}}</td>
         <td>{{p.troubleDeSommeil}}</td>
         <td><a class="btn btn-primary btn-lg" href="{{path('consultation', {'id': p.id})}}" role="button">Voir ses statistiques</a></td>
     </tr>

@@ -108,6 +108,7 @@ class UserController extends AbstractController
     /**
      * @Route("/connexionPatient", name="connexion_patient")
      */
+    /*
     public function connexionPatient(Request $request, ObjectManager $manager, PatientRepository $repo)
     {
         $date = new \DateTime('@'.strtotime('now'));
@@ -138,7 +139,7 @@ class UserController extends AbstractController
         
        ]);
     }
-
+*/
      /**
      * @Route("/inscriptionPatient", name="inscription_patient")
      */

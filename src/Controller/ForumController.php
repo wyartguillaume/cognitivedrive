@@ -59,7 +59,7 @@ class ForumController extends AbstractController
     }
 
     /**
-     * @Route("/aide", name="aide")
+     * @Route("/forum", name="forum")
      * @IsGranted("ROLE_USER")
      * @param Request $request
      * @param ObjectManager $manager
@@ -85,7 +85,7 @@ class ForumController extends AbstractController
             );
         }
         $comment = $repo->findAll();
-        return $this->render('forum/aide.html.twig', [
+        return $this->render('forum/forum.html.twig', [
             'comment' => $comment,
             'form' => $form->createView()
         ]);

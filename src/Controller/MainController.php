@@ -31,6 +31,13 @@ class MainController extends AbstractController
         return $this->render('main/acceuil.html.twig');
     }
 
+    /**
+     * @Route("/aide", name="aide")
+     */
+    public function aide(){
+        return $this->render('main/aide.html.twig');
+    }
+
 
 
     /**
@@ -59,5 +66,19 @@ class MainController extends AbstractController
             'patient' =>$patient
         ]);
     }
+
+    /**
+     * @Route("/propos", name="propos")
+     */
+    public function aPropos(){
+    return $this->render('main/propos.html.twig');
+    }
+
+    /**
+     * @Route("/rgpd", name="rgpd")
+     */
+    public function rgpd(){
+        return $this->render('main/rgpd.html.twig');
+        }
 
 }

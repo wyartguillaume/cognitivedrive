@@ -11,7 +11,7 @@
          <p class="lead">{{commentaire.createdAt | date("d/m/Y G:i:s")}}</p>
             <hr class="my-4">
             <p>{{commentaire.contenu}}</p>
-            <a class="btn btn-success btn-lg" href="{{path('aide')}}" role="button">Retour au forum</a>
+            <a class="btn btn-success btn-lg" href="{{path('forum')}}" role="button">Retour au forum</a>
         </div>
         <h1>Les différentes réponses</h1>
  {% if reponse | length > 0 %}
