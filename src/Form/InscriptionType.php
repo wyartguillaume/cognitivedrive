@@ -6,6 +6,7 @@ use App\Entity\Psychologue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class InscriptionType extends AbstractType
@@ -18,6 +19,7 @@ class InscriptionType extends AbstractType
             ->add('email')
             ->add('motDePasse', PasswordType::class)
             ->add('confirm_motDePasse', PasswordType::class)
+            ->add('isRgpd', CheckboxType::class)
         ;
     }
 

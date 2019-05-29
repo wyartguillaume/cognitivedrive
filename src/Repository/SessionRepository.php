@@ -47,4 +47,52 @@ class SessionRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findSessionVitesse($pseudo){
+        $query = $this->createQueryBuilder('s');
+        return $query->select('s.vitesseMoyenne', 'AVG(s.vitesseMoyenne) as average')     
+                ->leftJoin('App:Patient', 'p', 'WITH', 's.patient = p.id')
+                //->addSelect('r')     
+                ->andWhere('p.pseudo LIKE :pseudoSearch')
+                ->setParameter('pseudoSearch', '%'.$pseudo.'%')
+                ->groupBy('s.patient')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function findSessionSortie($pseudo){
+        $query = $this->createQueryBuilder('s');
+        return $query->select('s.NbrRencontreRouteGauche, s.NbrRencontreRouteDroite')     
+                ->leftJoin('App:Patient', 'p', 'WITH', 's.patient = p.id')
+                //->addSelect('r')     
+                ->andWhere('p.pseudo LIKE :pseudoSearch')
+                ->setParameter('pseudoSearch', '%'.$pseudo.'%')
+                ->getQuery()
+                ->getResult();
+    }
+    
+    public function findNbrBoutton($pseudo){
+        $query = $this->createQueryBuilder('s');
+        return $query->select('s.nbrTotaleButtonAcceleration, s.nbrTotaleButtonFrein')     
+                ->leftJoin('App:Patient', 'p', 'WITH', 's.patient = p.id')
+                //->addSelect('r')     
+                ->andWhere('p.pseudo LIKE :pseudoSearch')
+                ->setParameter('pseudoSearch', '%'.$pseudo.'%')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function findNbrToucheObstacle($pseudo){
+        $query = $this->createQueryBuilder('s');
+        return $query->select('s.nbrTouchePietonsDroit, s.nbrTouchePietonsGauche', 's.NbrAnimalToucheGauche', 's.NbrAnimalToucheDroite')     
+                ->leftJoin('App:Patient', 'p', 'WITH', 's.patient = p.id')
+                //->addSelect('r')     
+                ->andWhere('p.pseudo LIKE :pseudoSearch')
+                ->setParameter('pseudoSearch', '%'.$pseudo.'%')
+                ->getQuery()
+                ->getResult();
+    }
+
+    
+
 }

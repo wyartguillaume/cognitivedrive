@@ -12,6 +12,7 @@
     <link href="/CSS/index.css" rel="stylesheet">
     <link rel="icon" href="Image/favicon.ico" />
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     {% block stylesheets %}{% endblock %}
 </head>
 
@@ -44,7 +45,7 @@
 
                     </li>
                     <li class="nav-item active">
-                            <a class="nav-link" href="{{path('acceuil')}}">Acceuil</a>
+                            <a class="nav-link" href="{{path('acceuil')}}">Accueil</a>
                         </li>
 
                     <li class="nav-item">
@@ -58,7 +59,7 @@
                         </li>
                     {% else %}
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{path('acceuil')}}">Acceuil</a>
+                        <a class="nav-link" href="{{path('acceuil')}}">Accueil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{path('inscription_user')}}">Inscription</a>

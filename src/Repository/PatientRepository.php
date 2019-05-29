@@ -55,6 +55,7 @@ class PatientRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
     }
+
     
 
 }

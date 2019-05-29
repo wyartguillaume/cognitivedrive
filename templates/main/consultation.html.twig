@@ -3,37 +3,64 @@
 
 
 {% block body %}
-
-<h1> Bienvenue dans la page consultation </h1>
-<table class="table table-hover">
-<thead>
- <tr class="table-primary">
-      <th scope="col">Pseudo</th>
-      <th scope="col">Sexe</th>
-      <th scope="col">Date de naissance</th>
-      <th scope="col">Lateralite</th>
-      <th scope="col">Groupe</th>
-      <th scope="col">Date de derniere visite</th>
-      <th scope="col">Nom</th>
-      <th scope="col">Prenom</th>
-      <th scope="col">Email</th>
-      <th scope="col">Profession</th>
-      <th scope="col">Etat Civil</th>
-      <th scope="col">Nombre d'enfants</th>
-      <th scope="col">Nombre de visite</th>
-      <th scope="col">Trouble de sommeil</th>
-      <th></th>
-    </tr>
-</thead>
-<tbody>
+<div class="container">
+<h1> Statistiques des sessions de jeu</h1>
+<hr>
+<h4>Voici les différentes données de votre patient</h4>
+<div class="row">
+<div class="col-6">
+    <ul class="list-group">
 {% for s in session %}
 {% if s.patient.id == patient.id %}
-     <tr class="table-secondary">
-        <td>{{s.vitesseMoyenne}}</td>
-        <td>{{s.nbrTotaleButtonAcceleration}}</td>
-    </tr>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Level: <span style="color: #d95f02;">{{s.level}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Jour/nuit: <span style="color: #d95f02;">{{s.ChoixJourNuit}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Date de session de jeu: <span style="color: #d95f02;">{{s.dateSession}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Vitesse Moyenne: <span style="color: #d95f02;">{{s.vitesseMoyenne}} km/h</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre totale de fois le bouton d'accélération touché: <span style="color: #d95f02;">{{s.nbrTotaleButtonAcceleration}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre totale de fois le bouton de frein touché: <span style="color: #d95f02;">{{s.nbrTotaleButtonFrein}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre de fois que la voiture est sortié à droite: <span style="color: #d95f02;">{{s.NbrRencontreRouteDroite}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre de fois que la voiture est sortié à gauche: <span style="color: #d95f02;">{{s.NbrRencontreRouteGauche}}</span></li>
+
     {% endif %}
 {% endfor %}
-</tbody>
-</table>
+</ul>
+</div>
+<div class="col-6">
+<ul class="list-group">
+{% for s in session %}
+{% if s.patient.id == patient.id %}
+<li class="list-group-item d-flex justify-content-between align-items-center">Le temps que la voiture est restée à droite: <span style="color: #d95f02;">{{s.NbrSortieTimerDroite}} secondes</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Le temps que la voiture est restée à gauche: <span style="color: #d95f02;">{{s.NbrSortieTimerGauche}} secondes</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Vitesse moyenne dans la zone d'obstacle: <span style="color: #d95f02;">{{s.VitesseMoyenneZoneObstacle}} km/h</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Temps de réaction: <span style="color: #d95f02;">{{s.TempsDeReaction}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre de piétons touché venant de droite: <span style="color: #d95f02;">{{s.nbrTouchePietonsDroit}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre de piétons touché venant de gauche: <span style="color: #d95f02;">{{s.nbrTouchePietonsGauche}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre d'animaux touché venant de droite: <span style="color: #d95f02;">{{s.NbrAnimalToucheDroite}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre d'animaux touché venant de droite: <span style="color: #d95f02;">{{s.NbrAnimalToucheGauche}}</span></li>
+</ul>
+{% endif %}
+{% endfor %}
+</div>
+</div>
+<hr>
+<h4>Les différents schémas représentant toutes les statistiques des joueurs du jeu</h4>
+<div class="jumbotron">
+<div id="div_bar" class="clearfix"></div>
+<hr>
+<div id= "div_chart" class="clearfix"></div>
+<hr>
+<div id= "div_chartacc" class="clearfix"></div>
+<hr>
+<div id= "div_chart2" class="clearfix"></div>
+<script type="text/javascript">
+        {{ gc_language('fr') }}
+    
+        {{ gc_draw(bar, 'div_bar') }}
+        {{ gc_draw(chart, 'div_chart')}}
+        {{ gc_draw(chartacc, 'div_chartacc')}}
+        {{ gc_draw(chart2, 'div_chart2')}}
+    </script>
+
+</div>
+</div>
 {% endblock %}

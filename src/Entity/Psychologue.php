@@ -107,6 +107,10 @@ class Psychologue implements UserInterface
     }
 
 
+    private $isRgpd;
+
+
+    
 
 
     public function getId(): ?int
@@ -193,6 +197,18 @@ class Psychologue implements UserInterface
              $this->confirm_motDePasse = $confirm_motDePasse;
              return $this;
          }
+
+         public function getIsRgpd(): ?bool
+        {
+        return $this->isRgpd;
+        }
+
+        public function setIsRgpd(bool $isRgpd): self
+        {
+        $this->isRgpd = $isRgpd;
+
+        return $this;
+        }
 
          /**
           * @return Collection|Patient[]
@@ -339,7 +355,6 @@ class Psychologue implements UserInterface
              return $this;
          }
 
-
-
+        
 
 }
