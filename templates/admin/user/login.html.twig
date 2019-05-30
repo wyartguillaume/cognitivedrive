@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Connexion à l'administration</title>
+    <link href="/CSS/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+     integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+     <style>
+        body {
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+        }
+        .card{
+            margin-top: 10%;
+        }
+     </style>
+</head>
+<body>
+<div class="col-md-4">
+    <div class="card bg-light">
+        <div class="card-header">
+            <h4 class="card-title">
+            <i class="fas fa-lock"></i>
+             Connexion à l'administration
+            </h4>
+        </div>
+        <div class="card-body">
+        {% if hasError %}
+            <div class="alert alert-warning">
+                <p>Les informations que vous avez fournies ne sont pas correctes.</p>
+            </div>
+        {% endif %}
+        
+            <form method="post" action={{path('admin_user_login')}}>
+                <div class="form-group">
+                    <input placeholder="Adresse email..." required name="_username" type="text" class="form-control" value="{{username}}">
+                    <br>
+                    <input placeholder="Mot de passe..." required name="_password" type="password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-lock-open"></i>
+                        Connexion
+                    </button>
+                    <a href="{{path('acceuil')}}" class="btn btn-link"><i class="fas fas-arrow-circle-left"></i> Retour vers le site</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

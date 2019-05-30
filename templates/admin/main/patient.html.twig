@@ -1,0 +1,54 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %} Administration des patients!{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1 class="my-5">Gestion des patients</h1>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+      <th>Id</th>
+      <th>Pseudo</th>
+      <th>Sexe</th>
+      <th>Date de naissance</th>
+      <th>Lateralite</th>
+      <th>Groupe</th>
+      <th>Date de derniere visite</th>
+      <th>Nom</th>
+      <th>Prenom</th>
+      <th>Email</th>
+      <th>Profession</th>
+      <th>Etat Civil</th>
+      <th>Nombre d'enfants</th>
+      <th>Nombre de sessions de jeu</th>
+      <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
+{% for p in patient %}
+    <tr>
+        <td>{{p.id}}</td>
+        <td>{{p.pseudo}}</td>
+        <td>{{p.sexe}}</td>
+        <td>{{p.dateDeNaissance|date("d/m/Y")}}</td>
+        <td>{{p.lateralite}}</td>
+        <td>{{p.groupe}}</td>
+        <td>{{p.dateDerniereVisite|date("d/m/Y")}}</td>
+        <td>{{p.nom}}</td>
+        <td>{{p.prenom}}</td>
+        <td>{{p.email}}</td>
+        <td>{{p.profession}}</td>
+        <td>{{p.etatCivil}}</td>
+        <td><span class="badge badge-primary rounded">{{p.nbrEnfants}}</span></td>
+        <td><span class="badge badge-primary rounded">{{p.sessions | length}}</span></td>
+        <td><a href="{{path('admin_patient_edit', {'id': p.id})}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+            <a href="{{path('admin_patient_delete', {'id': p.id})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

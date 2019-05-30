@@ -1,0 +1,70 @@
+{% extends "admin/base.html.twig" %}
+
+ {% block title %}
+    Modification du profil  des patients
+ {% endblock %}
+
+ {% block body %}
+ 
+    <div class="container-fluid">
+    <div class="row">
+    <div class="col">
+        <h1>Modification du patient</h1>
+        {{form_start(form)}}
+       <div class="card bg-light">
+            <div class="card-header">
+                <h4 class="card-title">Modifier le patient après l'accord du psychologue?</h4>
+            </div>
+            <div class="card-body">
+             {{ form_start(form) }}
+             {{ form_widget(form) }}
+             <button type="submit" class="btn btn-primary">
+                <i class="fas fa-check"></i>
+                 Enregistrer les modifications
+             </button>
+            </div>
+        </div>
+        </div>
+        <div class="col">
+        <div class="card bg-light">
+        <div class="card-header">
+            <h4 class="card-title">Les données obtenues du jeu</h4>
+        </div>
+        <div class="card-body">
+        <div class="row">
+        <div class="col-6">
+            <ul class="list-group">
+{% for s in patient.sessions %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">Level: <span style="color: #d95f02;">{{s.level}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Jour/nuit: <span style="color: #d95f02;">{{s.ChoixJourNuit}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Date de session de jeu: <span style="color: #d95f02;">{{s.dateSession}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Vitesse Moyenne: <span style="color: #d95f02;">{{s.vitesseMoyenne}} km/h</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre totale de fois le bouton d'accélération touché: <span style="color: #d95f02;">{{s.nbrTotaleButtonAcceleration}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre totale de fois le bouton de frein touché: <span style="color: #d95f02;">{{s.nbrTotaleButtonFrein}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre de fois que la voiture est sortié à droite: <span style="color: #d95f02;">{{s.NbrRencontreRouteDroite}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre de fois que la voiture est sortié à gauche: <span style="color: #d95f02;">{{s.NbrRencontreRouteGauche}}</span></li>
+
+{% endfor %}
+</ul>
+</div>
+<div class="col-6">
+<ul class="list-group">
+{% for s in patient.sessions %}
+<li class="list-group-item d-flex justify-content-between align-items-center">Le temps que la voiture est restée à droite: <span style="color: #d95f02;">{{s.NbrSortieTimerDroite}} secondes</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Le temps que la voiture est restée à gauche: <span style="color: #d95f02;">{{s.NbrSortieTimerGauche}} secondes</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Vitesse moyenne dans la zone d'obstacle: <span style="color: #d95f02;">{{s.VitesseMoyenneZoneObstacle}} km/h</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Temps de réaction: <span style="color: #d95f02;">{{s.TempsDeReaction}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre de piétons touché venant de droite: <span style="color: #d95f02;">{{s.nbrTouchePietonsDroit}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre de piétons touché venant de gauche: <span style="color: #d95f02;">{{s.nbrTouchePietonsGauche}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre d'animaux touché venant de droite: <span style="color: #d95f02;">{{s.NbrAnimalToucheDroite}}</span></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">Nombre d'animaux touché venant de droite: <span style="color: #d95f02;">{{s.NbrAnimalToucheGauche}}</span></li>
+</ul>
+{% endfor %}
+    </div>
+    </div>
+        </div>
+        </div>
+        </div>
+    {{form_end(form)}}
+    </div>
+ {% endblock %}

@@ -1,0 +1,60 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title  %}Modification du commentaire {{comment.id}}{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+<h1>Modification du commentaire de {{comment.psycho.prenom}}</h1>
+ {{form_start(form)}}
+ <div class="row">
+    <div class="col">
+        <div class="card bg-light">
+            <div class="card-header">
+                <h4 class="card-title">Modifier le commentaire?</h4>
+            </div>
+            <div class="card-body">
+             {{ form_row(form.sujet, {'label': 'Sujet','attr': {'placeholder': "Le sujet"}}) }}
+             {{ form_row(form.contenu, {'label': 'Contenu','attr': {'placeholder': "Un problème/une question? Ecrivez ici!!"}}) }}
+             <button type="submit" class="btn btn-primary">
+                <i class="fas fa-check"></i>
+                 Enregistrer les modifications
+             </button>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card bg-light">
+        <div class="card-header">
+            <h4 class="card-title">Les réponses de ce poste</h4>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Auteur</th>
+                    <th>Reponse</th>
+                    <th>Date de création</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                {% for reponse in comment.conversations %}
+                    <td>{{reponse.id}}</td>
+                    <td>{{reponse.auteur.nom}} {{reponse.auteur.prenom}}</td>
+                    <td>{{reponse.reponse}}</td>
+                    <td>{{reponse.createdAt | date("d/m/Y G:i:s")}}</td>
+                    <td><a href="{{path('admin_reponse_delete', {'id': reponse.id})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                    </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+ </div>
+ {{form_end(form)}}
+</div>
+{% endblock %}

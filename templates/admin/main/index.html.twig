@@ -1,0 +1,38 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %} Administration des utilisateurs!{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1 class="my-5">Gestion des utilisateurs</h1>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Email</th>
+            <th>Mot de passe</th>
+            <th>Nombre de patients</th>
+            <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in psycho %}
+            <tr>
+                <td>{{p.id}}</td>
+                <td>{{p.nom}}</td>
+                <td>{{p.prenom}}</td>
+                <td>{{p.email}}</td>
+                <td>{{p.motDePasse}}</td>
+                <td><span class="badge badge-primary rounded">{{p.patients | length}}</span></td>
+                <td>
+                <a href="{{path('admin_psychologue_delete', {'id': p.id})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

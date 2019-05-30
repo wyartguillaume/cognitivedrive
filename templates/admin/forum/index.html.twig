@@ -1,0 +1,38 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %} Administration du forum!{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1 class="my-5">Gestion des commentaires</h1>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            <th>Id</th>
+            <th>Sujet</th>
+            <th>Auteur</th>
+            <th>Contenu</th>
+            <th>Date du message</th>
+            <th>Nombre de réponses</th>
+            <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for commentaire in forum %}
+            <tr>
+                <td>{{commentaire.id}}</td>
+                <td>{{commentaire.sujet}}</td>
+                <td>{{commentaire.psycho.nom}} {{commentaire.psycho.prenom}}</td>
+                <td>{{commentaire.contenu}}</td>
+                <td>{{commentaire.createdAt | date("d/m/Y G:i:s")}}</td>
+                <td><span class="badge badge-primary rounded"> {{commentaire.conversations | length}}</span></td>
+                <td><a href="{{path('admin_forum_edit', {'id': commentaire.id})}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                    <a href="{{path('admin_forum_delete', {'id': commentaire.id})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
