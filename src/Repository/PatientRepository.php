@@ -56,6 +56,18 @@ class PatientRepository extends ServiceEntityRepository
                 ->getResult();
     }
 
+    public function findPsycho($nom, $prenom){
+        $query = $this->createQueryBuilder('p');
+        return $query->select('r')     
+                ->leftJoin('App:Psychologue', 'r', 'WITH', 'p.psychologue = r.id')
+                //->addSelect('r')     
+                ->andWhere('r.nom LIKE :nomSearch')
+                ->setParameter('nomSearch', '%'.$nom.'%')
+                ->andWhere('r.prenom LIKE :prenomSearch')
+                ->setParameter('prenomSearch', '%'.$prenom.'%')
+                ->getQuery()
+                ->getResult();
+    }
     
 
 }

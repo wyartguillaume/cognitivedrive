@@ -41,43 +41,42 @@ class CarSimulGameController extends AbstractController
     }
 
     /**
-     * @Route("/gameInsPat", name="carSimulInscriptionPat")
+     * @Route("/gameInsPat/{id}", name="carSimulInscriptionPat")
      */
 
-    public function InscriptionGamePatient(ObjectManager $manager, PatientRepository $repoPat, PsychologueRepository $repoPsy)
+    public function InscriptionGamePatient( Psychologue $psychologue, ObjectManager $manager, PatientRepository $repoPat)
     {
-        $date =  new \DateTime('@'.strtotime('now'));
         $pseudo = $_POST['pseudoPost'];
+
         //$psy = $_POST['psychoPost'];
         $dateDeNAissance = $_POST['dateDeNaissancePost'];
         $sexe = $_POST['sexePost'];
         $lateralite = $_POST['lateralitePost'];
         $groupe = $_POST['groupPost'];
-       /* $nom = $_POST['nomPost'];
+        $nom = $_POST['nomPost'];
         $prenom = $_POST['prenomPost'];
         $email = $_POST['emailPost'];
         $profession = $_POST['professionPost'];
         $etatCivil = $_POST['etatCivilPost'];
-        $nbrEnfant = $_POST['nbrEnfantPost'];*/
-
+        $nbrEnfant = $_POST['nbrEnfantPost'];
+        $dateNaiss = new \DateTime($dateDeNAissance);
+        $date =  new \DateTime('@'.strtotime('now'));
         $nbrVisite = 0; 
-     
         $patient = new Patient();
-        //$psycho = $manager->createQuery("SELECT p.psychologue App\Entity\Patient p WHERE p.id = 1")->getResult();
 
         $patient->setPseudo($pseudo)
-                ->setPsychologue(1)
-                ->setDateDeNaissance($dateDeNAissance)
+                ->setPsychologue($psychologue)
+                ->setDateDeNaissance($dateNaiss)
                 ->setSexe($sexe)
                 ->setLateralite($lateralite)
                 ->setGroupe($groupe)
-                /*->setNom($nom)
+                ->setNom($nom)
                 ->setPrenom($prenom)
                 ->setEmail($email)
                 ->setProfession($profession)
                 ->setEtatCivil($etatCivil)
-                ->setNbrEnfants($nbrEnfant)*/
-                ->setNbrVisite($nbrVisite++)
+                ->setNbrEnfants($nbrEnfant)
+                ->setNbrVisite(1)
                 ->setDateDerniereVisite($date)
                 ->setTroubleDeSommeil(false);
                     $manager->persist($patient);
@@ -88,15 +87,26 @@ class CarSimulGameController extends AbstractController
     /**
      * @Route("/gameConnexionPsycho", name="carSimulConnexionPsy")
      */
-    public function ConnexionPsy(ObjectManager $manager, PsychologueRepository $repoPsy, PatientRepository $repoPat){
+    public function ConnexionPsy(UserPasswordEncoderInterface $encoder, ObjectManager $manager, PsychologueRepository $repoPsy, PatientRepository $repoPat){
         $psycho = $manager->createQuery("SELECT p.email, p.motDePasse FROM App\Entity\Psychologue p")->getResult();
-   
-    return $this->json($psycho, 200, [], [
-        ObjectNormalizer::ATTRIBUTES => [
-            'email',
-            'motDePasse'
-        ]
-    ]);
+        $mdp = $_POST['mdpPost'];
+        $email = $_POST['email'];
+        $psy = $repoPsy->findOneBy(["email"=>$email]);
+        $check = $encoder->isPasswordValid($psy, $mdp);
+        if(!$check){
+            return false;
+        }
+        else{
+        return $this->json($psycho, 200, [], [
+            ObjectNormalizer::ATTRIBUTES => [
+                'email',
+                'motDePasse'
+            ]
+        ]);
+            }
+
+        
+            
     }
 
     /**
@@ -120,7 +130,7 @@ class CarSimulGameController extends AbstractController
     */
     public function CreateDropdown(ObjectManager $manager, PsychologueRepository $repoPsy, PatientRepository $repoPat)
     {
-    $psycho = $manager->createQuery("SELECT p. id, p.nom, p.prenom FROM App\Entity\Psychologue p")->getResult();
+    $psycho = $manager->createQuery("SELECT p.id, p.nom, p.prenom FROM App\Entity\Psychologue p")->getResult();
    
     return $this->json($psycho, 200, [], [
         ObjectNormalizer::ATTRIBUTES => [
@@ -133,9 +143,9 @@ class CarSimulGameController extends AbstractController
     }
 
      /**
-     * @Route("/gameCreateSessionLevel1", name="carSimulCreateSessionLevel1")
+     * @Route("/gameCreateSessionLevel1/{id}", name="carSimulCreateSessionLevel1")
     */
-    public function CreateSession(ObjectManager $manager)
+    public function CreateSession(Patient $patient, ObjectManager $manager)
     {
         $vitesseMoyenne = $_POST["vitesseMoyenne"];
         $nbrButtonAcceleration = $_POST["nbrAcceleration"];
@@ -152,6 +162,7 @@ class CarSimulGameController extends AbstractController
 
         $session = new Session();
         $session->setVitesseMoyenne($vitesseMoyenne)
+                ->setPatient($patient)
                 ->setNbrTotaleButtonAcceleration($nbrButtonAcceleration)
                 ->setNbrTotaleButtonFrein($nbrButtonBrake)
                 ->setDateSession($dateSession)
@@ -169,9 +180,9 @@ class CarSimulGameController extends AbstractController
     }
 
      /**
-     * @Route("/gameCreateSessionLevel2", name="carSimulCreateSessionLevel2")
+     * @Route("/gameCreateSessionLevel2/{id}", name="carSimulCreateSessionLevel2")
     */
-    public function CreateSessionLevel2(ObjectManager $manager)
+    public function CreateSessionLevel2(Patient $patient, ObjectManager $manager)
     {
         $vitesseMoyenne = $_POST["vitesseMoyenne"];
         $nbrButtonAcceleration = $_POST["nbrAcceleration"];
@@ -195,6 +206,7 @@ class CarSimulGameController extends AbstractController
 
         $session = new Session();
         $session->setVitesseMoyenne($vitesseMoyenne)
+                ->setPatient($patient)
                 ->setNbrTotaleButtonAcceleration($nbrButtonAcceleration)
                 ->setNbrTotaleButtonFrein($nbrButtonBrake)
                 ->setDateSession($dateSession)
@@ -222,9 +234,9 @@ class CarSimulGameController extends AbstractController
     }
 
      /**
-     * @Route("/gameCreateSessionLevel3", name="carSimulCreateSessionLevel3")
+     * @Route("/gameCreateSessionLevel3/{id}", name="carSimulCreateSessionLevel3")
     */
-    public function CreateSessionLevel3(ObjectManager $manager)
+    public function CreateSessionLevel3(Patient $patient, ObjectManager $manager)
     {
         $vitesseMoyenne = $_POST["vitesseMoyenne"];
         $nbrButtonAcceleration = $_POST["nbrAcceleration"];
@@ -239,6 +251,7 @@ class CarSimulGameController extends AbstractController
 
         $session = new Session();
         $session->setVitesseMoyenne($vitesseMoyenne)
+                ->setPatient($patient)
                 ->setNbrTotaleButtonAcceleration($nbrButtonAcceleration)
                 ->setNbrTotaleButtonFrein($nbrButtonBrake)
                 ->setDateSession($dateSession)

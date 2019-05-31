@@ -16,3 +16,7 @@
     max-width: 300px;
     max-height: 300px;
 }
+
+.chartstyle{
+    fill: rgb(252,252,252);
+}
