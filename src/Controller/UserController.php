@@ -144,12 +144,12 @@ class UserController extends AbstractController
      * @Route("/inscriptionPatient", name="inscription_patient")
      */
 
-    public function inscriptionPatient(Request $request, ObjectManager $manager){
+   /* public function inscriptionPatient(Request $request, ObjectManager $manager){
         $date = new \DateTime('@'.strtotime('now'));
         $patient = new Patient();
         // $psychologue = new Psychologue();
-        /*$psychologue = $manager->createQuery('SELECT p FROM App\Entity\Psychologue p')->getResult();
-        dump($psychologue);*/
+        $psychologue = $manager->createQuery('SELECT p FROM App\Entity\Psychologue p')->getResult();
+        dump($psychologue);
         $form = $this->createForm(InscriptionPatientType::class, $patient);
 
         $form->handleRequest($request);
@@ -182,7 +182,7 @@ class UserController extends AbstractController
     return $this->render('user/inscriptionPatient.html.twig', [
         'form' => $form->createView()
         ]);
-    }
+}*/
 
     /**
      * @Route("/verifCompte/{token}", name="account_confirm")

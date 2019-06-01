@@ -150,7 +150,6 @@ class MainController extends AbstractController
             foreach($value as $keys => $pseudo){
                 $sortie = $repo->findNbrToucheObstacle($pseudo);
                 foreach($sortie as $oui => $values){
-                    dump($values);
                     array_push($dataChart2, [$pseudo, $values['nbrTouchePietonsGauche'], $values['nbrTouchePietonsDroit'], $values['NbrAnimalToucheGauche'], $values['NbrAnimalToucheDroite']]);
                 }
         }

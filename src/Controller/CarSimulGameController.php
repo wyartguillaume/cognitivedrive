@@ -84,6 +84,36 @@ class CarSimulGameController extends AbstractController
                     return new Response();
     }
 
+     /**
+     * @Route("/gameInsPatSimple/{id}", name="carSimulInscriptionPatSimple")
+     */
+
+    public function InscriptionGamePatientSimple( Psychologue $psychologue, ObjectManager $manager, PatientRepository $repoPat)
+    {
+        $pseudo = $_POST['pseudoPost'];
+        $dateDeNAissance = $_POST['dateDeNaissancePost'];
+        $sexe = $_POST['sexePost'];
+        $lateralite = $_POST['lateralitePost'];
+        $groupe = $_POST['groupPost'];
+        $dateNaiss = new \DateTime($dateDeNAissance);
+        $date =  new \DateTime('@'.strtotime('now'));
+        $nbrVisite = 0; 
+        $patient = new Patient();
+
+        $patient->setPseudo($pseudo)
+                ->setPsychologue($psychologue)
+                ->setDateDeNaissance($dateNaiss)
+                ->setSexe($sexe)
+                ->setLateralite($lateralite)
+                ->setGroupe($groupe)
+                ->setNbrVisite(1)
+                ->setDateDerniereVisite($date)
+                ->setTroubleDeSommeil(false);
+                    $manager->persist($patient);
+                    $manager->flush();
+                    return new Response();
+    }
+
     /**
      * @Route("/gameConnexionPsycho", name="carSimulConnexionPsy")
      */
@@ -112,7 +142,7 @@ class CarSimulGameController extends AbstractController
     /**
      * @Route("/gameConnexionPatient", name="carSimulConnexionPatient")
      */
-    public function ConnexionPatient(ObjectManager $manager, PatientRepository $repoPat){
+   /* public function ConnexionPatient(ObjectManager $manager, PatientRepository $repoPat){
         $patient = $manager->createQuery("SELECT p.pseudo, p.dateDeNaissance, p.lateralite, p.groupe FROM App\Entity\Patient p")->getResult();
    
     return $this->json($patient, 200, [], [
@@ -123,7 +153,7 @@ class CarSimulGameController extends AbstractController
             'groupe'
         ]
     ]);
-    }
+    }*/
 
     /**
      * @Route("/gameCreateDropdown", name="carSimulCreateDropdown")
@@ -140,6 +170,20 @@ class CarSimulGameController extends AbstractController
         ]
     ]);
 
+    }
+
+    /**
+     * @Route("/gameIdPat", name="carSimulFindPat")
+     */
+    public function FindIdPat(PatientRepository $repo){
+        $nomPat = $_POST['nomPatient'];
+        $patId = $repo->findOneBy(["pseudo"=>$nomPat]);
+        return $this->json($patId, 200, [], [
+            ObjectNormalizer::ATTRIBUTES => [
+                'id'
+            ]
+        ]);
+        return new Response();
     }
 
      /**
@@ -169,7 +213,9 @@ class CarSimulGameController extends AbstractController
                 ->setNbrRencontreRouteDroite($rencontreRouteDroite)
                 ->setNbrRencontreRouteGauche($rencontreRouteGauche)
                 ->setLevel($level)
-                ->setChoixJourNuit($choixJourNuit);
+                ->setChoixJourNuit($choixJourNuit)
+                ->setNbrSortieTimerDroite($tempsSortieDroite)
+                ->setNbrSortieTimerGauche($tempsSortieGauche);
 
         $manager->persist($session);
         $manager->flush();
@@ -242,6 +288,8 @@ class CarSimulGameController extends AbstractController
         $nbrButtonAcceleration = $_POST["nbrAcceleration"];
         $nbrButtonBrake = $_POST["nbrBrake"];
         $dateSession = $_POST["dateSession"];
+        $level = $_POST['Level'];
+        $choixJourNuit = $_POST['ChoixJourNuit'];
         $rencontreRouteGauche = $_POST["RencontreRouteGauche"];
         $rencontreRouteDroite = $_POST["RencontreRouteDroite"];
         $tempsSortieGauche = $_POST["TempsSortieGauche"];
